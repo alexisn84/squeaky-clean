@@ -20,6 +20,7 @@ import NoMatch from './pages/NoMatch';
 import SingleReview from './pages/SingleReview';
 import UserDashboard from './pages/UserDashboard';
 import Signup from './pages/Signup';
+import NavBar from './components/Navbar';
 
 //setup graphql and auth
 const httpLink = createHttpLink({
@@ -46,7 +47,7 @@ function App() {
         <ApolloProvider client={client}>
           <Router>  
               <div>
-              <Header />
+              <NavBar />
               <div>
                   <Switch>
                     <Route exact path="/" component={Home} />
