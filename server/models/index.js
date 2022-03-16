@@ -3,5 +3,7 @@ const Review = require('./Review');
 const Maid = require('./Maid');
 const Rating = require('./Rating');
 const Schedule = require('./Schedule');
+const Bookings = require('./Bookings');
 
-module.exports = { User, Review, Maid, Rating, Schedule };
+
+module.exports = { User, Review, Maid, Rating, Schedule, Bookings };

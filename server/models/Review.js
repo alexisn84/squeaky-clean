@@ -15,9 +15,9 @@ const reviewSchema = new Schema(
       default: Date.now,
       get: timestamp => dateFormat(timestamp)
     },
-    username: {
-      type: String,
-      required: true
+    createdBy: {
+      type: Schema.Types.ObjectId,
+      ref: 'User'
     },
     maid_id: {
       type: String,

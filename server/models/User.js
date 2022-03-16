@@ -20,7 +20,13 @@ const userSchema = new Schema(
       required: true,
       minlength: 5
     },
-    reviews: [
+    bookings: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Booking'
+      }
+    ],
+    createdReviews: [
       {
         type: Schema.Types.ObjectId,
         ref: 'Review'
