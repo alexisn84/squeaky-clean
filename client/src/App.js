@@ -39,7 +39,7 @@ function App() {
         <ApolloProvider client={client}>
           <Router>  
               <div>
-              
+              <p>hi everyone</p>
               </div>
             </Router>
         </ApolloProvider>
