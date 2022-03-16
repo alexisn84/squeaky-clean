@@ -1,13 +1,13 @@
 const { Schema, model } = require('mongoose');
-const reactionSchema = require('./Reaction');
+const ratingSchema = require('./Rating');
 const dateFormat = require('../utils/dateFormat');
 
 const reviewSchema = new Schema(
   {
     reviewText: {
       type: String,
-      required: 'You need to leave a thought!',
-      minlength: 1,
+      required: 'Please leave a review!',
+      minlength: 10,
       maxlength: 280
     },
     createdAt: {
@@ -19,7 +19,11 @@ const reviewSchema = new Schema(
       type: String,
       required: true
     },
-    reactions: [reactionSchema]
+    maid_id: {
+      type: String,
+      required: true
+    },
+    ratings: [ratingSchema]
   },
   {
     toJSON: {
@@ -28,7 +32,7 @@ const reviewSchema = new Schema(
   }
 );
 
-reviewSchema.virtual('reactionCount').get(function() {
+reviewSchema.virtual('ratingCount').get(function() {
   return this.reactions.length;
 });
 

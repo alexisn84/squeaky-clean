@@ -1,9 +1,10 @@
 const { Schema, model } = require('mongoose');
 const bcrypt = require('bcrypt');
+const ratingSchema = require('./Rating');
 
 const maidSchema = new Schema (
     {
-        employeename: {
+        name: {
         type: String,
         required: true,
         unique: true,
@@ -19,7 +20,8 @@ const maidSchema = new Schema (
                 type: Schema.Types.ObjectId,
                 ref: 'Review'
             }
-        ]
+        ],
+        ratings: [ratingSchema]
         //will need to add schedules here most likely
     },
     {
@@ -30,7 +32,7 @@ const maidSchema = new Schema (
 );
 
 // compare the incoming password with the hashed password
-maidSchema.methods.isCorrectPassword = async function(password) {
+userSchema.methods.isCorrectPassword = async function(password) {
     return bcrypt.compare(password, this.password);
   };
   

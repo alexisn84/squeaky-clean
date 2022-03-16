@@ -1,13 +1,13 @@
 const { Schema } = require('mongoose');
 const dateFormat = require('../utils/dateFormat');
 
-const reactionSchema = new Schema(
+const ratingSchema = new Schema(
   {
-    reactionBody: {
-      type: String,
-      required: true,
-      maxlength: 280
-    },
+    // ratingBody: {
+    //   type: String,
+    //   required: true,
+    //   maxlength: 280
+    // },
     username: {
       type: String,
       required: true
@@ -25,4 +25,4 @@ const reactionSchema = new Schema(
   }
 );
 
-module.exports = reactionSchema;
+module.exports = ratingSchema;
