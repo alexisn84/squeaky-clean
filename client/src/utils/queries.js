@@ -1,5 +1,27 @@
 import { gql } from '@apollo/client';
 
+export const QUERY_APPOINTMENTS = gql`
+  query appointments($appointment: String){
+    time
+    date
+  }
+`;
+
+export const QUERY_MAIDS = gql`
+  query maids($maid: String) {
+    user:(name: $name) {
+      _id
+      name
+      ratings {
+        _id
+        createdAt
+        ratingBody
+        username
+      }
+    }
+  }
+`;
+
 export const QUERY_REVIEWS = gql`
   query reviews($username: String) {
     reviews(username: $username) {
@@ -7,12 +29,12 @@ export const QUERY_REVIEWS = gql`
       reviewText
       createdAt
       username
-      reactionCount
-      reactions {
+      ratingCount
+      ratings {
         _id
         createdAt
         username
-        reactionBody
+        ratingBody
       }
     }
   }
@@ -25,12 +47,12 @@ export const QUERY_REVIEW = gql`
       reviewText
       createdAt
       username
-      reactionCount
-      reactions {
+      ratingCount
+      ratings {
         _id
         createdAt
         username
-        reactionBody
+        ratingBody
       }
     }
   }
@@ -46,7 +68,11 @@ export const QUERY_USER = gql`
         _id
         reviewText
         createdAt
-        reactionCount
+        ratingCount
+      }
+      bookings {
+        slot
+        createdAt
       }
     }
   }
@@ -63,12 +89,16 @@ export const QUERY_ME = gql`
         _id
         reviewText
         createdAt
-        reactionCount
-        reactions {
+        ratingCount
+        ratings {
           _id
           createdAt
-          reactionBody
+          ratingBody
           username
+        }
+        bookings {
+          slot
+          createdAt
         }
     }
   }
