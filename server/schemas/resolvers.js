@@ -25,17 +25,17 @@ const resolvers = {
     //         .select('-__v -password')
     //         .populate('reviews');
     //     },
-    //     thoughts: async (parent, { username }) => {
+    //     reviews: async (parent, { username }) => {
     //       const params = username ? { username } : {};
     //       return Review.find(params).sort({ createdAt: -1 });
     //     },
-    //     thought: async (parent, { _id }) => {
+    //     review: async (parent, { _id }) => {
     //       return Review.findOne({ _id });
     //     }
     //   },
 
       // Mutation: {
-      //   addUser: async (parent, args) => {
+      //   createUser: async (parent, args) => {
       //     const user = await User.create(args);
       //     const token = signToken(user);
     
@@ -57,7 +57,7 @@ const resolvers = {
       //     const token = signToken(user);
       //     return { token, user };
       //   },
-      //   addReview: async (parent, args, context) => {
+      //   createReview: async (parent, args, context) => {
       //     if (context.user) {
       //       const review = await Review.create({ ...args, username: context.user.username });
     
@@ -72,7 +72,7 @@ const resolvers = {
     
       //     throw new AuthenticationError('You need to be logged in!');
       //   },
-      //   addReaction: async (parent, { reviewId, reactionBody }, context) => {
+      //   addRating: async (parent, { reviewId, reactionBody }, context) => {
       //     if (context.user) {
       //       const updatedReview = await Review.findOneAndUpdate(
       //         { _id: reviewId },

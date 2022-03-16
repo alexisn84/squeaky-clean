@@ -2,14 +2,22 @@ const { gql } = require('apollo-server-express');
 
 const typeDefs = gql`
   type User {
-    _id: ID
-    username: String
+    _id: ID!
+    username: String!
     email: String
     reviews: [Review]
+    bookings: [Booking]
 }
 
+  type Maid {
+    _id: ID!
+    name: String
+    reviews: [Review]
+
+  }
+
   type Review {
-    _id: ID
+    _id: ID!
     reviewText: String
     createdAt: String
     username: String
@@ -17,11 +25,19 @@ const typeDefs = gql`
     reactions: [Reaction]
   }
 
-  type Reaction {
+  type Rating {
     _id: ID
-    reactionBody: String
+    ratingBody: String
     createdAt: String
     username: String
+  }
+
+  type Booking {
+    _id: ID!
+    schedule: Schedule!
+    user: User!
+    createdAt: String!
+    updatedAt: String!
   }
 
   type Auth {
@@ -32,17 +48,22 @@ const typeDefs = gql`
   type Query {
     me: User
     users: [User]
+    maids: [Maid]
     user(username: String!): User
     reviews(username: String): [Review]
     review(_id: ID!): Review
+    bookings: [Booking!]!
   }
 
+
+  
   type Mutation {
     login(email: String!, password: String!): Auth
-    addUser(username: String!, email: String!, password: String!): Auth
-    addReview(reviewText: String!): Review
-    addReaction(reviewId: ID!, reactionBody: String!): Review
-    
+    createUser(username: String!, email: String!, password: String!): Auth
+    createReview(reviewText: String!): Review
+    addRating(reviewId: ID!, reactionBody: String!): Rating
+    booking(scheduleId: ID!): Booking!
+    cancelBooking(bookingId: ID!): Schedule!
   }
 `;
 
