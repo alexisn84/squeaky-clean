@@ -6,4 +6,4 @@ const Schedule = require('./Schedule');
 const Bookings = require('./Bookings');
 
 
-module.exports = { User, Review, Maid, Rating, Schedule, Bookings };
+module.exports = { User, Review, Maid, Bookings, Rating, Schedule };

@@ -32,11 +32,11 @@ const maidSchema = new Schema (
 );
 
 // compare the incoming password with the hashed password
-userSchema.methods.isCorrectPassword = async function(password) {
+maidSchema.methods.isCorrectPassword = async function(password) {
     return bcrypt.compare(password, this.password);
   };
   
-  MaidSchema.virtual('reviewCount').get(function() {
+  maidSchema.virtual('reviewCount').get(function() {
     return this.reviews.length;
   });
 

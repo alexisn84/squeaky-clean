@@ -21,8 +21,8 @@ const typeDefs = gql`
     reviewText: String
     createdAt: String
     username: String
-    reactionCount: Int
-    reactions: [Reaction]
+    ratingCount: Int
+    ratings: [Rating]
   }
 
   type Rating {
@@ -38,6 +38,13 @@ const typeDefs = gql`
     user: User!
     createdAt: String!
     updatedAt: String!
+  }
+
+  type Schedule {
+    _id: ID!
+    schedule: String
+    start: String
+    finish: String
   }
 
   type Auth {
@@ -61,7 +68,7 @@ const typeDefs = gql`
     login(email: String!, password: String!): Auth
     createUser(username: String!, email: String!, password: String!): Auth
     createReview(reviewText: String!): Review
-    addRating(reviewId: ID!, reactionBody: String!): Rating
+    addRating(reviewId: ID!, ratingBody: String!): Rating
     booking(scheduleId: ID!): Booking!
     cancelBooking(bookingId: ID!): Schedule!
   }
