@@ -1,7 +1,8 @@
 import { gql } from '@apollo/client';
 
-export const QUERY_APPOINTMENTS = gql`
-  query appointments($appointment: String){
+export const QUERY_BOOKINGS = gql`
+  query bookings($booking: String){
+    _id
     time
     date
   }
@@ -12,6 +13,42 @@ export const QUERY_MAIDS = gql`
     user:(name: $name) {
       _id
       name
+      ratings {
+        _id
+        createdAt
+        ratingBody
+        username
+      }
+    }
+  }
+`;
+
+export const QUERY_MAID = gql`
+  query maid($maid: String) {
+    user:(name: $name) {
+      _id
+      name
+      ratings {
+        _id
+        createdAt
+        ratingBody
+        username
+      }
+    }
+  }
+`;
+
+export const QUERY_EMPL = gql`
+  query maids($maid: String) {
+    user:(name: $name) {
+      _id
+      name
+      ratingCount
+      bookings {
+        _id
+        time
+        date
+      }
       ratings {
         _id
         createdAt

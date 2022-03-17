@@ -39,14 +39,14 @@ export const ADD_REVIEW = gql`
   }
 `;
 
-export const ADD_REACTION = gql`
-  mutation addReaction($ReviewId: ID!, $reactionBody: String!) {
-    addReaction(reviewId: $reviewId, reactionBody: $reactionBody) {
+export const ADD_RATING = gql`
+  mutation addRating($ReviewId: ID!, $reactionBody: String!) {
+    addRating(reviewId: $reviewId, ratingBody: $ratingBody) {
       _id
-      reactionCount
-      reactions {
+      ratingCount
+      ratings {
         _id
-        reactionBody
+        ratingBody
         createdAt
         username
       }
