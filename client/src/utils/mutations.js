@@ -54,3 +54,14 @@ export const ADD_RATING = gql`
   }
 `;
 
+export const ADD_BOOKING = gql`
+  mutation addBooking($bookingText: String!) {
+    addbooking(bookingText: $bookingText) {
+      _id
+      bookingText
+      createdAt
+      username
+      date
+    }
+  }
+`;
