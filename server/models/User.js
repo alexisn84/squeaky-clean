@@ -26,7 +26,7 @@ const userSchema = new Schema(
         ref: 'Booking'
       }
     ],
-    createdReviews: [
+    reviews: [
       {
         type: Schema.Types.ObjectId,
         ref: 'Review'
@@ -57,6 +57,10 @@ userSchema.methods.isCorrectPassword = async function(password) {
 
 userSchema.virtual('reviewCount').get(function() {
   return this.reviews.length;
+});
+
+userSchema.virtual('bookingCount').get(function() {
+  return this.bookings.length;
 });
 
 const User = model('User', userSchema);
