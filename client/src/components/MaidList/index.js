@@ -7,4 +7,4 @@ const MaidList = () => {
     );
 };
 
-export default FriendList;
+export default MaidList;
