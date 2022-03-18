@@ -2,7 +2,7 @@ const { gql } = require('apollo-server-express');
 
 const typeDefs = gql`
   type User {
-    _id: ID!
+    _id: ID
     username: String!
     email: String
     bookings: [Booking]
@@ -10,13 +10,13 @@ const typeDefs = gql`
 }
 
   type Maid {
-    _id: ID!
+    _id: ID
     name: String
     reviews: [Review]
   }
 
   type Review {
-    _id: ID!
+    _id: ID
     reviewText: String
     createdAt: String
     username: String
@@ -33,7 +33,7 @@ const typeDefs = gql`
   }
 
   type Booking {
-    _id: ID!
+    _id: ID
     schedule: Schedule!
     user: User!
     createdAt: String!
@@ -46,7 +46,7 @@ const typeDefs = gql`
   }
 
   type Schedule {
-    _id: ID!
+    _id: ID
     schedule: String
     maidName: String
     date: String
