@@ -5,15 +5,14 @@ const typeDefs = gql`
     _id: ID!
     username: String!
     email: String
-    reviews: [Review]
     bookings: [Booking]
+    reviews: [Review]
 }
 
   type Maid {
     _id: ID!
     name: String
     reviews: [Review]
-
   }
 
   type Review {
@@ -27,6 +26,7 @@ const typeDefs = gql`
 
   type Rating {
     _id: ID
+    ratingNum: Int
     ratingBody: String
     createdAt: String
     username: String
@@ -40,11 +40,17 @@ const typeDefs = gql`
     updatedAt: String!
   }
 
+  type Slot {
+    start: Int
+    finish: Int
+  }
+
   type Schedule {
     _id: ID!
     schedule: String
-    start: String
-    finish: String
+    maidName: String
+    date: String
+    slots: [Slot]
   }
 
   type Auth {
@@ -56,13 +62,12 @@ const typeDefs = gql`
     me: User
     users: [User]
     maids: [Maid]
+    schedule(maidName: String): [Schedule]
     user(username: String!): User
     reviews(username: String): [Review]
     review(_id: ID!): Review
     bookings: [Booking!]!
   }
-
-
   
   type Mutation {
     login(email: String!, password: String!): Auth
