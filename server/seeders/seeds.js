@@ -39,7 +39,7 @@ db.once('open', async () => {
 
   
 
-  const createdMaids = await Maid.collection.insertMany(maidData);
+  const createdMaids = await Maid.collection.insertMany(maidData, maidSeed);
 
   // create schedules
   const scheduleData = [];
@@ -90,3 +90,49 @@ db.once('open', async () => {
   process.exit(0);
 });
 
+//Hard code seeds to test and demo with
+
+//USERS
+
+
+//MAIDS
+const maidSeed = [
+  {
+      name: 'Bubbly Brenda',
+      password: "test123",
+      email: 'bbrenda@squeakyclean.com',
+      review_id: [1, 6, 11]
+  },
+  {
+      name: 'Cleaning Cindy',
+      password: "test1234",
+      email: 'ccindy@squeakyclean.com',
+      review_id: [2, 7, 13]
+  },
+  {
+      name: 'Sparkling Sarah',
+      password: "test12345",
+      email: 'ssarah@squeakyclean.com',
+      review_id: [3, 8, 14]
+  },
+  {
+      name: 'Mopping Mary',
+      password: "test123456",
+      email: 'mmary@squeakyclean.com',
+      review_id: [4, 9, 14]
+  },
+  {
+      name:'Dust-Away Daryl',
+
+      password: "test1234567",
+      email: 'ddaryl@squeakyclean.com',
+      review_id: [5, 10, 15]
+  }
+];
+
+//const seedMaids = () => Maid.bulkCreate(maiddata);
+
+
+//SCHEDULES
+
+//REVIEWS
