@@ -43,30 +43,30 @@ const resolvers = {
       return Review.findOne({ _id });
     }
   },*/
+   },
+   Mutation: {
+    createUser: async (parent, args) => {
+      const user = await User.create(args);
+      const token = signToken(user);
 
-  // Mutation: {
-  //   createUser: async (parent, args) => {
-  //     const user = await User.create(args);
-  //     const token = signToken(user);
+      return { token, user };
+    },
+    login: async (parent, { email, password }) => {
+      const user = await User.findOne({ email });
 
-  //     return { token, user };
-  //   },
-  //   login: async (parent, { email, password }) => {
-  //     const user = await User.findOne({ email });
+      if (!user) {
+        throw new AuthenticationError('Incorrect credentials');
+      }
 
-  //     if (!user) {
-  //       throw new AuthenticationError('Incorrect credentials');
-  //     }
+      const correctPw = await user.isCorrectPassword(password);
 
-  //     const correctPw = await user.isCorrectPassword(password);
+      if (!correctPw) {
+        throw new AuthenticationError('Incorrect credentials');
+      }
 
-  //     if (!correctPw) {
-  //       throw new AuthenticationError('Incorrect credentials');
-  //     }
-
-  //     const token = signToken(user);
-  //     return { token, user };
-  //   },
+      const token = signToken(user);
+      return { token, user };
+    },
   //   createReview: async (parent, args, context) => {
   //     if (context.user) {
   //       const review = await Review.create({ ...args, username: context.user.username });
@@ -94,9 +94,8 @@ const resolvers = {
   //     }
 
   //     throw new AuthenticationError('You need to be logged in!');
-  //   }
-  //   }
-   }
+    //}
+    }
 };
 
 module.exports = resolvers;
