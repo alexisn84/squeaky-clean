@@ -9,7 +9,21 @@ const resolvers = {
       return Maid.find(params).sort({createdAt: -1 });
     },
 
-    /*me: async (parent, args, context) => {
+    //single maid
+    maid: async (parent, args, context) => {
+      if (context.user) {
+        const maidData = await Maid.findOne({ _id: context.maid._id })
+          .select('-__v -password')
+          .populate('reviews');
+
+        return maidData;
+      }
+
+      throw new AuthenticationError('Not logged in');
+    },
+    
+    //single user
+    me: async (parent, args, context) => {
       if (context.user) {
         const userData = await User.findOne({ _id: context.user._id })
           .select('-__v -password')
@@ -19,7 +33,7 @@ const resolvers = {
       }
 
       throw new AuthenticationError('Not logged in');
-    },*/
+    },
     users: async () => {
       return User.find()
         .select('-__v -password')
