@@ -13,6 +13,7 @@ const typeDefs = gql`
     _id: ID!
     name: String
     reviews: [Review]
+    schedules: [Schedule]
   }
 
   type Review {

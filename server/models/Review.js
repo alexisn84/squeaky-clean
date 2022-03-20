@@ -8,7 +8,7 @@ const reviewSchema = new Schema(
       type: String,
       required: 'Please leave a review and rate the service!',
       minlength: 10,
-      maxlength: 280
+      maxlength: 1000
     },
     createdAt: {
       type: Date,
@@ -20,7 +20,7 @@ const reviewSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'User'
     },
-    maidId: {
+    maidName: {
       type: String,
       required: true
     },

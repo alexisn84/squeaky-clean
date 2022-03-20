@@ -8,6 +8,7 @@ db.once('open', async () => {
   await User.deleteMany({});
   await Maid.deleteMany({});
   await Schedule.deleteMany({});
+  await Review.deleteMany({});
 
   // create user data
   const userData = [];
@@ -50,24 +51,27 @@ db.once('open', async () => {
   }
 
   const createdSchedules = await Schedule.collection.insertMany(scheduleData);
-/*  
+  
   // create reviews
-  let createdReviews = [];
-  for (let i = 0; i < 20; i += 1) {
-    const reviewText = faker.lorem.words(Math.round(Math.random() * 100) + 1);
+  let reviewData = [];
+  for (let i = 0; i < 50; i++) {
+    const reviewText = faker.lorem.words(Math.round(Math.random() * 50) + 1);
 
     const randomMaidIndex = Math.floor(Math.random() * maidData.length);
     const maid = maidData[randomMaidIndex];
+    
+    const rating = Math.floor(Math.random() * (5 - 1 + 1) + 1);
 
-    const createdReview = await Review.create({ reviewText, name });
+    const createdReview = await Review.create({ reviewText: reviewText, maidName: maid.name, rating: rating });
 
     const updatedMaid = await Maid.updateOne(
-      { _id: maidId },
-      { $push: { reviews: createdReview._id } }
+      { _id: maid._id },
+      { $push: { reviews: createdReview } }
     );
-
-    createdReviews.push(createdReview);
+    reviewData.push(createdReview);
   }
+
+  //const createdReviews = await Review.collection.insertMany(reviewData);
 /*
   // create reactions
   for (let i = 0; i < 100; i += 1) {
