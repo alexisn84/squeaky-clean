@@ -31,13 +31,12 @@ const typeDefs = gql`
     createdAt: String
     username: String
   }
-
+ 
   type Booking {
     _id: ID
-    schedule: Schedule!
-    user: User!
-    createdAt: String!
-    updatedAt: String!
+    bookingText: String
+    user: User
+    createdAt: String
   }
 
   type Slot {
@@ -68,6 +67,7 @@ const typeDefs = gql`
     reviews(username: String): [Review]
     review(_id: ID!): Review
     bookings: [Booking!]!
+    booking(_id: ID!): Booking
   }
   
   type Mutation {
@@ -75,8 +75,8 @@ const typeDefs = gql`
     createUser(username: String!, email: String!, password: String!): Auth
     createReview(reviewText: String!): Review
     addRating(reviewId: ID!, ratingBody: String!): Rating
-    booking(scheduleId: ID!): Booking!
-    cancelBooking(bookingId: ID!): Schedule!
+    addBooking(scheduleId: ID!): Booking
+    cancelBooking(bookingId: ID!): Schedule
   }
 `;
 
