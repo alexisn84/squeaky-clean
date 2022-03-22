@@ -2,43 +2,47 @@ const { gql } = require('apollo-server-express');
 
 const typeDefs = gql`
   type User {
-    _id: ID!
-    username: String!
+    _id: ID
+    username: String
     email: String
     bookings: [Booking]
     reviews: [Review]
 }
 
   type Maid {
-    _id: ID!
+    _id: ID
     name: String
     reviews: [Review]
+<<<<<<< HEAD
     schedules: [Schedule]
+=======
+    bookings: [Booking]
+    userRatings: String
+>>>>>>> develop
   }
 
   type Review {
-    _id: ID!
+    _id: ID
     reviewText: String
     createdAt: String
     username: String
-    ratingCount: Int
-    ratings: [Rating]
+    maid_id: String    
   }
 
-  type Rating {
+  type userRating {
     _id: ID
     ratingNum: Int
-    ratingBody: String
     createdAt: String
-    username: String
+    user_id: String
+    maid_id: String
   }
-
+ 
   type Booking {
-    _id: ID!
-    schedule: Schedule!
-    user: User!
-    createdAt: String!
-    updatedAt: String!
+    _id: ID
+    bookingLocation: String
+    user: User
+    maid: Maid
+    createdAt: String
   }
 
   type Slot {
@@ -47,7 +51,7 @@ const typeDefs = gql`
   }
 
   type Schedule {
-    _id: ID!
+    _id: ID
     schedule: String
     maidName: String
     date: String
@@ -55,28 +59,31 @@ const typeDefs = gql`
   }
 
   type Auth {
-    token: ID!
+    token: ID
     user: User
+    maid: Maid
   }
 
   type Query {
     me: User
     users: [User]
+    maid: Maid
     maids: [Maid]
     schedule(maidName: String): [Schedule]
     user(username: String!): User
     reviews(username: String): [Review]
     review(_id: ID!): Review
     bookings: [Booking!]!
+    booking(_id: ID!): Booking
   }
   
   type Mutation {
     login(email: String!, password: String!): Auth
     createUser(username: String!, email: String!, password: String!): Auth
     createReview(reviewText: String!): Review
-    addRating(reviewId: ID!, ratingBody: String!): Rating
-    booking(scheduleId: ID!): Booking!
-    cancelBooking(bookingId: ID!): Schedule!
+    addRating(reviewId: ID!, ratingBody: String!): userRating
+    addBooking(scheduleId: ID!): Booking
+    cancelBooking(bookingId: ID!): Schedule
   }
 `;
 
