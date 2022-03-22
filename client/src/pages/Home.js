@@ -1,4 +1,3 @@
-import { isRequiredArgument } from 'graphql';
 import React from 'react';
 import ReactDom from 'react-dom';
 import '../index.css';
@@ -25,7 +24,7 @@ export default function Home() {
                 </div>
                 <div className="column is-two-thirds is-centered">
                     <figure className="image is-5by3 m-6">
-                        <img src={HeaderImg}/>
+                        <img src={HeaderImg} alt="clean kitchen counter"/>
                     </figure>
                 </div>
             </div>   
@@ -39,23 +38,23 @@ export default function Home() {
                 Sparkling Spaces provides residential <br/> cleaning services to the Orlando, FL area!
                 </div>
                 <div className="columns is-mobile is-vcentered">
-                    <div className='column is-one-third is-centered'>
-                        <figure className="image is-128x128">
-                            <img src={About1}/>
+                    <div className='column is-one-third is-centered has-text-centered'>
+                        <figure className="image is-128x128 is-inline-block">
+                            <img src={About1} alt="cleaning supplies"/>
                         </figure>
                         <div className='title is-4'>We Supply Everything</div>
                         <div className='subtitle is-5'>Sparkling Spaces blah blah blah</div>
                     </div>
-                    <div className='column is-one-third is-centered'>
-                        <figure className="image is-128x128">
-                            <img src={About2}/>
+                    <div className='column is-one-third is-centered has-text-centered'>
+                        <figure className="image is-128x128 is-inline-block">
+                            <img src={About2} alt="people mopping"/>
                         </figure>
                         <div className='title is-4'>We Supply Everything</div>
                         <div className='subtitle is-5'>Sparkling Spaces blah blah blah</div>
                     </div>
-                    <div className='column is-one-third is-centered'>
-                        <figure className="image is-128x128">
-                            <img src={About3}/>
+                    <div className='column is-one-third is-centered has-text-centered'>
+                        <figure className="image is-128x128 is-inline-block">
+                            <img src={About3} alt="three stars"/>
                         </figure>
                         <div className='title is-4'>We Supply Everything</div>
                         <div className='subtitle is-5'>Sparkling Spaces blah blah blah</div>
@@ -65,11 +64,27 @@ export default function Home() {
         )
     }
 
+    const Rates = () => {
+        return (
+            <div id="rates" className="container is-fluid mt-6">
+                <div className='title is-2 has-text-centered'>Rates</div>
+                <div className='subtitle is-5 has-text-centered'>
+                Price is an accurate estimate based on standard scope of work. Upon booking, a maid will work with you to create a custom-made cleaning list to make sure your priorities are met.
+                </div> 
+                <div className='title is-3 has-text-centered'>Average Cleaning Times:</div>
+                <div className='subtitle is-5 has-text-centered'>
+                2 Hours: 1-2 Bedrooms <br/>4 Hours: 2-3 Bedrooms<br/>6 Hours: 3-4 Bedrooms
+                </div> 
+            </div>
+        )
+    }
+
     
     return (
         <div id="landing-body">
             <Header/>
             <About/>
+            <Rates/>
         </div>
     )
 
