@@ -6,6 +6,9 @@ import { Container, Radio, Rating } from "./RatingStyles";
 
 const Rate = () => {
   const [rate, setRate] = useState(0);
+  const activeStar ={
+    fill: 'rgb(66,135,245)'
+  };
   
   return (
     <Container>
@@ -25,8 +28,8 @@ const Rate = () => {
               <FaStar
                 color={
                   givenRating < rate || givenRating === rate
-                    ? "000"
-                    : "rgb(192,192,192)"
+                    ? "rgb(66,135,245)"
+                    : "rgb(189, 216, 219)"
                 }
               />
             </Rating>

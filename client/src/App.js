@@ -14,6 +14,7 @@ import { setContext } from '@apollo/client/link/context';
 //import pages
 import Home from './pages/Home';
 //import Rating from './components/Rating';
+//import UserDashboard from './pages/UserDashboard';
 
 //setup graphql and auth
 const httpLink = createHttpLink({
