@@ -3,6 +3,9 @@ const dateFormat = require('../utils/dateFormat');
 
 const ratingSchema = new Schema(
   {
+    userRating: {
+      type: Number
+    },
     ratingNum: {
       type: Number,
       required: true
