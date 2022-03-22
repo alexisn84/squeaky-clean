@@ -13,12 +13,8 @@ const typeDefs = gql`
     _id: ID
     name: String
     reviews: [Review]
-<<<<<<< HEAD
-    schedules: [Schedule]
-=======
     bookings: [Booking]
     userRatings: String
->>>>>>> develop
   }
 
   type Review {
