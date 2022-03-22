@@ -62,6 +62,7 @@ const MaidDashboard = (props) => {
                 bookings={user.bookings}
                 title={`${user.username}`}
               />
+              <Rating />
             </div>
     
             <div className="">
@@ -72,7 +73,7 @@ const MaidDashboard = (props) => {
               />
             </div>
           </div>
-          <div className=''>{!userParam && <Rating />}
+          <div className=''>{!userParam && <Rating /> && <BookingList /> && <ReviewList />}
           </div>
         </div>
       );
