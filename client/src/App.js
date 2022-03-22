@@ -12,7 +12,7 @@ import { setContext } from '@apollo/client/link/context';
 
 
 //import pages
-
+import Home from './pages/Home';
 
 //setup graphql and auth
 const httpLink = createHttpLink({
@@ -39,7 +39,7 @@ function App() {
         <ApolloProvider client={client}>
           <Router>  
               <div>
-              <p>hi everyone</p>
+                <Home/>
               </div>
             </Router>
         </ApolloProvider>
