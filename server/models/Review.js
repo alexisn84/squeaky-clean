@@ -1,5 +1,5 @@
 const { Schema, model } = require('mongoose');
-const ratingSchema = require('./Rating');
+const ratingSchema = require('./UserRating');
 const dateFormat = require('../utils/dateFormat');
 
 const reviewSchema = new Schema(
@@ -16,18 +16,15 @@ const reviewSchema = new Schema(
       get: timestamp => dateFormat(timestamp),
       timestamp: true
     },
-    createdBy: {
+    createdByUser_id: {
       type: Schema.Types.ObjectId,
-      ref: 'User'
-    },
-    maidName: {
-      type: String,
+      ref: 'User',
       required: true
     },
-    rating: {
-      type: Number,
-      min: 1,
-      max: 5
+    createdForMaid_id: {
+      type: Schema.Types.ObjectId,
+      ref: 'Maid',
+      required: true
     }
   },
   {

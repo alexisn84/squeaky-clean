@@ -7,37 +7,39 @@ const typeDefs = gql`
     email: String
     bookings: [Booking]
     reviews: [Review]
-}
+  }
 
   type Maid {
     _id: ID
     name: String
     reviews: [Review]
     bookings: [Booking]
-    userRatings: String
+    userRatings: [UserRating]
   }
 
   type Review {
     _id: ID
     reviewText: String
     createdAt: String
-    username: String
-    maid_id: String    
+    createdByUser_id: String
+    createdForMaid_id: String    
   }
 
-  type userRating {
+  type UserRating {
     _id: ID
     ratingNum: Int
     createdAt: String
-    user_id: String
-    maid_id: String
+    createdByMaid_id: String
+    createdForUser_id: String
   }
  
   type Booking {
     _id: ID
     bookingLocation: String
-    user: User
-    maid: Maid
+    user_id: String
+    maid_id: String
+    paymentPending: Boolean
+    paymentAmount: Number
     createdAt: String
   }
 
@@ -69,7 +71,7 @@ const typeDefs = gql`
     user(username: String!): User
     reviews(username: String): [Review]
     review(_id: ID!): Review
-    bookings: [Booking!]!
+    bookings: [Booking]
     booking(_id: ID!): Booking
   }
   

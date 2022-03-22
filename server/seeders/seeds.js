@@ -3,11 +3,10 @@ const bcrypt = require('bcrypt');
 const db = require('../config/connection');
 const {
   User,
-  Maid,
   Review,
-  Schedule,
-  Rating,
-  Bookings,
+  Maid,
+  UserRating,
+  Booking,
 } = require('../models');
 
 const SALT_ROUNDS = 10;
@@ -15,7 +14,9 @@ const SALT_ROUNDS = 10;
 async function deleteCollections() {
   await User.deleteMany({});
   await Maid.deleteMany({});
+  await Booking.deleteMany({});
   await Review.deleteMany({});
+  await Rating.deleteMany({});
   await Schedule.deleteMany({});
 }
 

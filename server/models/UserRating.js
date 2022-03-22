@@ -3,20 +3,18 @@ const dateFormat = require('../utils/dateFormat');
 
 const ratingSchema = new Schema(
   {
-    userRating: {
-      type: Number
-    },
     ratingNum: {
       type: Number,
       required: true
     },
-    ratingBody: {
-      type: String,
-      required: true,
-      maxlength: 280
+    createdByMaid_id: {
+      type: Schema.Types.ObjectId,
+      ref: 'Maid',
+      required: true
     },
-    maidname: {
-      type: String,
+    createdForUser_id: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
       required: true
     },
     createdAt: {
