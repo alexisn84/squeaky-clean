@@ -13,10 +13,12 @@ import Auth from '../utils/auth';
 
 const UserDashboard = (props) => {
     const { username: userParam } = useParams();
-
-    const [addReview] = useMutation(ADD_REVIEW);
+ 
     const [addBooking] = useMutation(ADD_BOOKING);
     const {maidList} = useQuery(QUERY_MAIDS);
+    
+    const [addReview] = useMutation(ADD_REVIEW);
+       
     const { loading, data } = useQuery(userParam ? QUERY_USER : QUERY_ME, {
         variables: { username: userParam },
     });
@@ -37,64 +39,65 @@ const UserDashboard = (props) => {
     }
 
     //click function to schedule booking
-  const handleClick = async () => {
-    try {
-      await addBooking({
-        variables: { id: user._id }
-      });
-    } catch (e) {
-      console.error(e);
-    }
-  };
+    const handleClick = async () => {
+      try {
+        await addBooking({
+          variables: { id: user._id }
+        });
+      } catch (e) {
+        console.error(e);
+      }
+    };
 
-  //click function to look at maid reviews
-  const maidClick = async () => {
-    try {
-      await maidList({
-        variables: { id: user._id }
-      });
-    } catch (e) {
-      console.error(e);
-    }
-  };
+    //click function to look at maid reviews
+    const maidClick = async () => {
+      try {
+        await maidList({
+          variables: { id: user._id }
+        });
+      } catch (e) {
+        console.error(e);
+      }
+    };
 
-  //click function to leave review
-  const reviewClick = async () => {
-    try {
-      await addReview({
-        variables: { id: user._id }
-      });
-    } catch (e) {
-      console.error(e);
-    }
-  };
+    //click function to leave review
+    const reviewClick = async () => {
+      try {
+        await addReview({
+          variables: { id: user._id }
+        });
+      } catch (e) {
+        console.error(e);
+      }
+    };
 
+    
   return (
     <div>
       <div className="">
       <h2 className="">
-          Welcome Back {userParam ? `${user.username}` : ' to your'} profile.
+          Welcome Back {userParam ? `${user.username}` : ' to your'} dashboard.
         </h2>
       </div>
 
       <div className="">
+        {/* container/card for BookingList, booking and maidList buttons */}
         <div className="">
-            {/* container/card for schedule buttons */}
-          <BookingList
+            <BookingList
             bookings={user.bookings}
-            title={`${user.username}'s Scheduled Cleanings'`}
+            // title={`${user.username}'s Scheduled Cleanings'`}
           />
           {/* schedule cleaning button click */}
            {userParam && (
           <button className='' onClick={handleClick}>
-            Schedule Cleaning
+            Schedule a Cleaning
             </button>
           )}
 
             {/* button to go see maids and reviews */}
         {userParam && (
           <button className='' onClick={maidClick}>
-            Checkout our Maids
+            Checkout Housekeepers
             </button>
           )}
         </div>
@@ -118,15 +121,15 @@ const UserDashboard = (props) => {
             logged in user */}
         <div className="">
           <ReviewList
+            title={`${user.username}'s Reviews `}
             username={user.username}
-            reviewCount={user.reviewCount}
             reviews={user.reviews}
           />
 
         
         </div>
       </div>
-      <div className=''>{!userParam && <ReviewList />}
+      <div className=''>{!userParam && <BookingList /> && <ReviewList />  && <ReviewForm />}
       </div>
     </div>
   );

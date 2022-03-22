@@ -9,7 +9,21 @@ const resolvers = {
       return Maid.find(params).sort({createdAt: -1 });
     },
 
-    /*me: async (parent, args, context) => {
+    //single maid
+    maid: async (parent, args, context) => {
+      if (context.user) {
+        const maidData = await Maid.findOne({ _id: context.maid._id })
+          .select('-__v -password')
+          .populate('reviews');
+
+        return maidData;
+      }
+
+      throw new AuthenticationError('Not logged in');
+    },
+    
+    //single user
+    me: async (parent, args, context) => {
       if (context.user) {
         const userData = await User.findOne({ _id: context.user._id })
           .select('-__v -password')
@@ -19,7 +33,7 @@ const resolvers = {
       }
 
       throw new AuthenticationError('Not logged in');
-    },*/
+    },
     users: async () => {
       return User.find()
         .select('-__v -password')
@@ -43,30 +57,30 @@ const resolvers = {
       return Review.findOne({ _id });
     }
   },*/
+   },
+   Mutation: {
+    createUser: async (parent, args) => {
+      const user = await User.create(args);
+      const token = signToken(user);
 
-  // Mutation: {
-  //   createUser: async (parent, args) => {
-  //     const user = await User.create(args);
-  //     const token = signToken(user);
+      return { token, user };
+    },
+    login: async (parent, { email, password }) => {
+      const user = await User.findOne({ email });
 
-  //     return { token, user };
-  //   },
-  //   login: async (parent, { email, password }) => {
-  //     const user = await User.findOne({ email });
+      if (!user) {
+        throw new AuthenticationError('Incorrect credentials');
+      }
 
-  //     if (!user) {
-  //       throw new AuthenticationError('Incorrect credentials');
-  //     }
+      const correctPw = await user.isCorrectPassword(password);
 
-  //     const correctPw = await user.isCorrectPassword(password);
+      if (!correctPw) {
+        throw new AuthenticationError('Incorrect credentials');
+      }
 
-  //     if (!correctPw) {
-  //       throw new AuthenticationError('Incorrect credentials');
-  //     }
-
-  //     const token = signToken(user);
-  //     return { token, user };
-  //   },
+      const token = signToken(user);
+      return { token, user };
+    },
   //   createReview: async (parent, args, context) => {
   //     if (context.user) {
   //       const review = await Review.create({ ...args, username: context.user.username });
@@ -94,9 +108,8 @@ const resolvers = {
   //     }
 
   //     throw new AuthenticationError('You need to be logged in!');
-  //   }
-  // }
-  }
+    //}
+    }
 };
 
 module.exports = resolvers;
