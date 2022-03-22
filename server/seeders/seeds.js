@@ -17,11 +17,7 @@ async function deleteCollections() {
   await Maid.deleteMany({});
   await Review.deleteMany({});
   await Schedule.deleteMany({});
-<<<<<<< HEAD
-  await Review.deleteMany({});
-=======
 }
->>>>>>> develop
 
 db.once('open', async () => {
   await deleteCollections();
@@ -104,49 +100,9 @@ db.once('open', async () => {
       createdBy: createdUsers.insertedIds[randomUserIndex],
     });
 
-<<<<<<< HEAD
-  const createdSchedules = await Schedule.collection.insertMany(scheduleData);
-  
-  // create reviews
-  let reviewData = [];
-  for (let i = 0; i < 50; i++) {
-    const reviewText = faker.lorem.words(Math.round(Math.random() * 50) + 1);
-
-    const randomMaidIndex = Math.floor(Math.random() * maidData.length);
-    const maid = maidData[randomMaidIndex];
-    
-    const rating = Math.floor(Math.random() * (5 - 1 + 1) + 1);
-
-    const createdReview = await Review.create({ reviewText: reviewText, maidName: maid.name, rating: rating });
-
-    const updatedMaid = await Maid.updateOne(
-      { _id: maid._id },
-      { $push: { reviews: createdReview } }
-    );
-    reviewData.push(createdReview);
-  }
-
-  //const createdReviews = await Review.collection.insertMany(reviewData);
-/*
-  // create reactions
-  for (let i = 0; i < 100; i += 1) {
-    const reactionBody = faker.lorem.words(Math.round(Math.random() * 20) + 1);
-
-    const randomUserIndex = Math.floor(Math.random() * createdUsers.ops.length);
-    const { username } = createdUsers.ops[randomUserIndex];
-
-    const randomThoughtIndex = Math.floor(Math.random() * createdThoughts.length);
-    const { _id: thoughtId } = createdThoughts[randomThoughtIndex];
-
-    await Thought.updateOne(
-      { _id: thoughtId },
-      { $push: { reactions: { reactionBody, username } } },
-      { runValidators: true }
-=======
     await Maid.updateOne(
       { _id: randomMaidId },
       { $push: { reviews: createdReview } }
->>>>>>> develop
     );
   }
 
