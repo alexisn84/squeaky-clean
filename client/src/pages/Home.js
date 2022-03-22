@@ -7,6 +7,9 @@ import HeaderImg from '../assets/header/clean.jpg';
 import About1 from '../assets/about/about1.png';
 import About2 from '../assets/about/about2.png';
 import About3 from '../assets/about/about3.png';
+import Testimonial1 from '../assets/testimonials/testimonial1.jpg';
+import Testimonial2 from '../assets/testimonials/testimonial2.jpg';
+import Testimonial3 from '../assets/testimonials/testimonial3.jpg';
 
 export default function Home() {
 
@@ -75,9 +78,49 @@ export default function Home() {
                 <div className='subtitle is-5 has-text-centered'>
                 2 Hours: 1-2 Bedrooms <br/>4 Hours: 2-3 Bedrooms<br/>6 Hours: 3-4 Bedrooms
                 </div> 
+                <div className='subtitle is-5 has-text-centered'>
+                Our rates are an estimate and may vary depending upon consultation to ensure we meet your expectations. Currently we are only doing 2-Hour appointments for 99$.
+                </div> 
             </div>
         )
     }
+
+    const Testimonials = () => {
+        return (
+            <div id="testimonials" className="container is-fluid mt-6">
+                <div className='title is-2 has-text-centered'>
+                What Our Customers Say
+                </div>
+                <div className='subtitle is-5 has-text-centered'>
+                Our staff is committed to quality cleaning services. After each cleaning, clients can rate their service to share with others. Our unique approach allows users to view their provider's rating before booking their appointment. This performance-based approach encourages excellence and is the primary reason that we are one of the top-rated cleaning services in Orlando.  
+                </div>
+                <div className="columns is-mobile is-vcentered">
+                    <div className='column is-one-third is-centered has-text-centered'>
+                        <figure className="image is-5x4 is-inline-block">
+                            <img src={Testimonial1} alt="cleaning supplies"/>
+                        </figure>
+                        <div className='subtitle is-5'>My living room has never been this clean!</div>
+                        <div className='title is-4'>John Smith</div>
+                    </div>
+                    <div className='column is-one-third is-centered has-text-centered'>
+                        <figure className="image is-5x4 is-inline-block">
+                            <img src={Testimonial2} alt="people mopping"/>
+                        </figure>
+                        <div className='subtitle is-5'>My bathroom has never been this clean!</div>
+                        <div className='title is-4'>Susie Q</div>
+                    </div>
+                    <div className='column is-one-third is-centered has-text-centered'>
+                        <figure className="image is-5x4 is-inline-block">
+                            <img src={Testimonial3} alt="three stars"/>
+                        </figure>
+                        <div className='subtitle is-5'>My bedroom has never been this clean!</div>
+                        <div className='title is-4'>John Smith</div>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
 
     
     return (
@@ -85,6 +128,7 @@ export default function Home() {
             <Header/>
             <About/>
             <Rates/>
+            <Testimonials/>
         </div>
     )
 
