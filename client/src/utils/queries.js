@@ -16,7 +16,6 @@ export const QUERY_MAIDS = gql`
       ratings {
         _id
         createdAt
-        ratingBody
         username
       }
     }
@@ -50,10 +49,10 @@ export const QUERY_EMPL = gql`
         time
         date
       }
-      ratings {
+      reviews {
         _id
         createdAt
-        ratingBody
+        reviewBody
         username
       }
     }
