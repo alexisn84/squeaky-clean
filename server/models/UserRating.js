@@ -1,4 +1,4 @@
-const { Schema } = require('mongoose');
+const { model, Schema } = require('mongoose');
 const dateFormat = require('../utils/dateFormat');
 
 const ratingSchema = new Schema(
@@ -29,5 +29,5 @@ const ratingSchema = new Schema(
     }
   }
 );
-
-module.exports = ratingSchema;
+const UserRating = model('UserRating', ratingSchema);
+module.exports = UserRating;

@@ -1,5 +1,6 @@
 const { Schema, model } = require('mongoose');
 const bcrypt = require('bcrypt');
+const dateFormat = require('../utils/dateFormat');
 
 const bookingSchema = new Schema(
   {
@@ -15,7 +16,7 @@ const bookingSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'Maid'
     },
-    paymentPending: {
+    paymentPaid: {
       type: Number,
       required: true
     },

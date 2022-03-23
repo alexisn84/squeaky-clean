@@ -16,18 +16,23 @@ async function deleteCollections() {
   await Maid.deleteMany({});
   await Booking.deleteMany({});
   await Review.deleteMany({});
-  await Rating.deleteMany({});
-  await Schedule.deleteMany({});
+  //await UserRating.deleteMany({});
+  //await Schedule.deleteMany({});
 }
 
 db.once('open', async () => {
   await deleteCollections();
 
+
+  /*************/
+  /*  USERS    */
+  /*************/
+
   const users = [];
 
   const password = await bcrypt.hash('password123', SALT_ROUNDS);
 
-  for (let i = 0; i < 20; i += 1) {
+  for (let i = 0; i < 50; i += 1) {
     const username = faker.internet.userName();
     const email = faker.internet.email(username);
 
@@ -67,7 +72,10 @@ db.once('open', async () => {
     ...awesomeUsers,
   ]);
 
-  console.log(createdUsers);
+
+  /*************/
+  /*  MAIDS    */
+  /*************/
 
   const maids = [];
 
@@ -82,31 +90,125 @@ db.once('open', async () => {
 
     maids.push({ name, password });
   }
+  const maidSeed = [
+    {
+      name: 'Bubbly Brenda',
+      email: 'bbrenda@squeakyclean.com'
+    },
+    {
+      name: 'Cleaning Cindy',
+      email: 'ccindy@squeakyclean.com'
+    },
+    {
+      name: 'Sparkling Sarah',
+      email: 'ssarah@squeakyclean.com'
+    },
+    {
+      name: 'Mopping Mary',
+      email: 'mmary@squeakyclean.com'
+    },
+    {
+      name: 'Dust-Away Daryl',
+      email: 'ddaryl@squeakyclean.com'
+    },
+  ];
 
-  const createdMaids = await Maid.collection.insertMany(maids);
+  const createdMaids = await Maid.collection.insertMany([
+    ...maids,
+    ...maidSeed
+  ]);
 
-  for (let i = 0; i < 50; i++) {
-    const reviewText = faker.random.words(10);
+
+  /****************/
+  /*  BOOKINGS    */
+  /****************/
+
+  const bookings = [];
+  const city = 'Orlando';
+  const state = 'FL';
+  const zips = [32789, 32804, 32808,
+    32812, 32824, 32801, 32805, 32809,
+    32814, 32827, 32802, 32806, 32810,
+    32819, 32829, 32803, 32807, 32811,
+    32822, 32832];
+
+  for (let i = 0; i < 100; i++) {
+    const streetAddr = faker.address.streetAddress();
+    const randomZipIndex = Math.floor(Math.random() * zips.length);
+    const locationAddr = streetAddr + ", Orlando, FL " + zips[randomZipIndex];
 
     const randomUserIndex = Math.floor(Math.random() * createdUsers.insertedCount);
+    const randomUserId = createdUsers.insertedIds[randomUserIndex];
     const randomMaidIndex = Math.floor(Math.random() * createdMaids.insertedCount);
     const randomMaidId = createdMaids.insertedIds[randomMaidIndex];
+    const payAmnt = (Math.floor(Math.random() * 4) * 200);
+    const paid = payAmnt > 0 ? true : false;
+    const createDt = faker.date.between('2022-03-01', '2022-03-21');
+    const booking = {
+      bookingLocation: locationAddr,
+      user_id: randomUserId,
+      maid_id: randomMaidId,
+      paymentPaid: paid,
+      paymentAmount: payAmnt,
+      createdAt: createDt
+    }
+
+    const createdBooking = await Booking.create(booking);
+
+    await Maid.updateOne(
+      { _id: randomMaidId },
+      { $push: { bookings: createdBooking } }
+    );
+    await User.updateOne(
+      { _id: randomUserId },
+      { $push: { bookings: createdBooking } }
+    );
+
+    bookings.push(booking);
+  }
+
+
+  /***************/
+  /*  REVIEWS    */
+  /***************/
+
+  for (let i = 0; i < 50; i++) {
+    let reviewText;
+    do {
+      reviewText = faker.random.words(Math.floor(Math.random() * 50));
+    } while (reviewText.length <= 10 || reviewText.length >= 1000);
+
+    let maidId;
+    let userId;
+    let paid;
+    do {
+      // get a random Booking
+      const randomBookingIndex = Math.floor(Math.random() * bookings.length);
+      const {user_id, maid_id, paymentPaid} = bookings[randomBookingIndex];
+      paid = paymentPaid;
+      userId = user_id;
+      maidId = maid_id;
+    } while (!paid)
+
     const rating = Math.floor(Math.random() * (5 - 1 + 1) + 1);
 
     const createdReview = await Review.create({
       reviewText: reviewText,
-      maidId: randomMaidId,
-      rating: rating,
+      createdForMaid_id: maidId,
+      createdByUser_id: userId,
       createdAt: Date.now(),
-      createdBy: createdUsers.insertedIds[randomUserIndex],
     });
 
     await Maid.updateOne(
-      { _id: randomMaidId },
+      { _id: maidId },
+      { $push: { reviews: createdReview } }
+    );
+    await User.updateOne(
+      { _id: userId },
       { $push: { reviews: createdReview } }
     );
   }
-
+/*
   const schedules = [];
 
   for (let i = 0; i < 20; i += 1) {
@@ -124,7 +226,7 @@ db.once('open', async () => {
   }
 
   await Schedule.collection.insertMany(schedules);
-
+*/
   //MAIDS
   // const maidSeed = [
   //   {

@@ -1,5 +1,4 @@
 const { Schema, model } = require('mongoose');
-const ratingSchema = require('./UserRating');
 const dateFormat = require('../utils/dateFormat');
 
 const reviewSchema = new Schema(
