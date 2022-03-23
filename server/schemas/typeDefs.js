@@ -13,6 +13,8 @@ const typeDefs = gql`
     _id: ID
     name: String
     reviews: [Review]
+    bookings: [Booking]
+    userRatings: String
   }
 
   type Review {
@@ -20,22 +22,22 @@ const typeDefs = gql`
     reviewText: String
     createdAt: String
     username: String
-    ratingCount: Int
-    ratings: [Rating]
+    maid_id: String    
   }
 
-  type Rating {
+  type userRating {
     _id: ID
     ratingNum: Int
-    ratingBody: String
     createdAt: String
-    username: String
+    user_id: String
+    maid_id: String
   }
  
   type Booking {
     _id: ID
-    bookingText: String
+    bookingLocation: String
     user: User
+    maid: Maid
     createdAt: String
   }
 
@@ -55,6 +57,7 @@ const typeDefs = gql`
   type Auth {
     token: ID
     user: User
+    maid: Maid
   }
 
   type Query {
@@ -74,7 +77,7 @@ const typeDefs = gql`
     login(email: String!, password: String!): Auth
     createUser(username: String!, email: String!, password: String!): Auth
     createReview(reviewText: String!): Review
-    addRating(reviewId: ID!, ratingBody: String!): Rating
+    addRating(reviewId: ID!, ratingBody: String!): userRating
     addBooking(scheduleId: ID!): Booking
     cancelBooking(bookingId: ID!): Schedule
   }

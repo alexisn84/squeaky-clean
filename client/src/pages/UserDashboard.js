@@ -121,15 +121,15 @@ const UserDashboard = (props) => {
             logged in user */}
         <div className="">
           <ReviewList
+            title={`${user.username}'s Reviews `}
             username={user.username}
-            reviewCount={user.reviewCount}
             reviews={user.reviews}
           />
 
         
         </div>
       </div>
-      <div className=''>{!userParam && <ReviewList />}
+      <div className=''>{!userParam && <BookingList /> && <ReviewList />  && <ReviewForm />}
       </div>
     </div>
   );
