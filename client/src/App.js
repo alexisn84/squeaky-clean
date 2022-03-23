@@ -13,6 +13,7 @@ import { setContext } from '@apollo/client/link/context';
 
 //import pages
 import Home from './pages/Home';
+import Login from './pages/Login';
 //import Rating from './components/Rating';
 //import UserDashboard from './pages/UserDashboard';
 
@@ -42,6 +43,9 @@ function App() {
           <Router>  
               <div>
                 <Home/>
+              </div>
+              <div>
+                <Login/>
               </div>
             </Router>
         </ApolloProvider>
