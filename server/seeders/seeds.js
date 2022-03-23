@@ -78,6 +78,7 @@ db.once('open', async () => {
   /*************/
 
   const maids = [];
+  //const mdPassword = await bcrypt.hash('password123', SALT_ROUNDS);
 
   for (let i = 0; i < 20; i += 1) {
     let name;
