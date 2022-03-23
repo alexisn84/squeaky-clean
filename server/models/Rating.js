@@ -10,11 +10,6 @@ const ratingSchema = new Schema(
       type: Number,
       required: true
     },
-    ratingBody: {
-      type: String,
-      required: true,
-      maxlength: 280
-    },
     maidname: {
       type: String,
       required: true
