@@ -29,11 +29,12 @@ module.exports = {
 
     return req;
   },
-  //this is for user and employee auth
-  signToken: function({ username, email, _id }) {
+  signUserToken: function({ username, email, _id }) {
     const payload = { username, email, _id };
-
-
+    return jwt.sign({ data: payload }, secret, { expiresIn: expiration });
+  },
+  signMaidToken: function({ name,  _id }) {
+    const payload = { name, _id };
     return jwt.sign({ data: payload }, secret, { expiresIn: expiration });
   }
 };

@@ -23,21 +23,22 @@ export const QUERY_MAIDS = gql`
   }
 `;
 
+//for maid list to show user single maid with reviews
 export const QUERY_MAID = gql`
   query maid($maid: String) {
     user:(name: $name) {
       _id
       name
-      ratings {
+      reviews {
         _id
-        createdAt
-        ratingBody
+        reviewText
         username
       }
     }
   }
 `;
 
+//for maid dashboard
 export const QUERY_EMPL = gql`
   query maids($maid: String) {
     user:(name: $name) {
@@ -66,17 +67,12 @@ export const QUERY_REVIEWS = gql`
       reviewText
       createdAt
       username
-      ratingCount
-      ratings {
-        _id
-        createdAt
-        username
-        ratingBody
-      }
+      maid_id
     }
   }
 `;
 
+//for user to edit single review
 export const QUERY_REVIEW = gql`
   query review($id: ID!) {
     review(_id: $id) {
@@ -84,17 +80,11 @@ export const QUERY_REVIEW = gql`
       reviewText
       createdAt
       username
-      ratingCount
-      ratings {
-        _id
-        createdAt
-        username
-        ratingBody
-      }
     }
   }
 `;
 
+//to pull into maiddashboard
 export const QUERY_USER = gql`
   query user($username: String!) {
     user(username: $username) {
@@ -111,9 +101,13 @@ export const QUERY_USER = gql`
         slot
         createdAt
       }
+      ratings {
+        _id
+      }
     }
   }
 `;
+
 
 export const QUERY_ME = gql`
   {

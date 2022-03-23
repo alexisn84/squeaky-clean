@@ -15,6 +15,7 @@ const ReviewList = ({ reviews }) => {
                         <div>
                             <Link to={`/review/${review._id}`}>
                                 <p>{review.reviewText}</p>
+                                <p>{review.maid_id}</p>
                                 </Link>
                         </div>
                     </div>

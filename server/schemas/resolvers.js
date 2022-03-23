@@ -1,17 +1,12 @@
 const { AuthenticationError } = require('apollo-server-express');
-const { User, Review, Maid, Schedule } = require('../models');
-const { signToken } = require('../utils/auth');
+const ObjectId = require('mongodb').ObjectId;
+const { User, Maid, Booking, Review } = require('../models');
+const { signUserToken, signMaidToken } = require('../utils/auth');
 
 const resolvers = {
   Query: {
-    maids: async (parent, {name}) => {
-      const params = name ? { name } : {};
-      return Maid.find(params).sort({createdAt: -1 });
-    },
-
-    //single maid
-    maid: async (parent, args, context) => {
-      if (context.user) {
+    memd: async (parent, args, context) => {
+      if (context.maid) {
         const maidData = await Maid.findOne({ _id: context.maid._id })
           .select('-__v -password')
           .populate('reviews');
@@ -21,51 +16,110 @@ const resolvers = {
 
       throw new AuthenticationError('Not logged in');
     },
-    
-    //single user
+
     me: async (parent, args, context) => {
       if (context.user) {
         const userData = await User.findOne({ _id: context.user._id })
           .select('-__v -password')
-          .populate('reviews');
+          .populate('reviews')
+          .populate('bookings');
 
         return userData;
       }
 
       throw new AuthenticationError('Not logged in');
     },
+
     users: async () => {
       return User.find()
         .select('-__v -password')
         .populate('reviews');
     },
+
     user: async (parent, { username }) => {
       return User.findOne({ username })
         .select('-__v -password')
-        .populate('reviews');
+        .populate('reviews')
+        .populate('bookings');
     },
-    schedule: async (parent, { maidName }) => {
-      const params = maidName ? { maidName } : {};
-      return Schedule.find(params).sort({createdAt: -1});
+
+    maids: async (parent, { name }) => {
+      const params = name ? { name } : {};
+      return Maid.find(params).sort({ createdAt: -1 });
     },
-    /*
-    reviews: async (parent, { username }) => {
-      const params = username ? { username } : {};
+
+    maid: async (parent, { name }) => {
+      return Maid.findOne({ name })
+        .select('-__v -password')
+        .populate('reviews')
+        .populate('bookings');
+    },
+
+    reviews: async () => {
+      return Review.find().sort({ createdAt: -1 });
+    },
+
+    reviewsByUser: async (parent, { createdByUser_id }) => {
+      const params = createdByUser_id ? { createdByUser_id } : {};
+      if (createdByUser_id) {
+        return Review.find({ createdByUser_id: ObjectId(createdByUser_id) })
+      }
       return Review.find(params).sort({ createdAt: -1 });
     },
+
+    reviewsForMaid: async (parent, { createdForMaid_id }) => {
+      const params = createdForMaid_id ? { createdForMaid_id } : {};
+      if (createdForMaid_id) {
+        return Review.find({ createdForMaid_id: ObjectId(createdForMaid_id) })
+      }
+      return Review.find(params).sort({ createdAt: -1 });
+    },
+
     review: async (parent, { _id }) => {
       return Review.findOne({ _id });
-    }
-  },*/
-   },
-   Mutation: {
-    createUser: async (parent, args) => {
+    },
+
+    bookings: async () => {
+      return Booking.find().sort({ createdAt: -1 });
+    },
+
+    booking: async (parent, { _id }) => {
+      return Booking.findOne({ _id });
+    },
+
+    bookingsByUser: async (parent, { user_id }) => {
+      const params = user_id ? { user_id } : {};
+      if (user_id) {
+        return Booking.find({ user_id: ObjectId(user_id) })
+      }
+      return Booking.find(params).sort({ createdAt: -1 });
+    },
+
+    bookingsForMaid: async (parent, { maid_id }) => {
+      const params = maid_id ? { maid_id } : {};
+      if (maid_id) {
+        return Booking.find({ maid_id: ObjectId(maid_id) })
+      }
+      return Booking.find(params).sort({ createdAt: -1 });
+    },
+  },
+
+  Mutation: {
+    userSignin: async (parent, args) => {
       const user = await User.create(args);
-      const token = signToken(user);
+      const token = signUserToken(user);
 
       return { token, user };
     },
-    login: async (parent, { email, password }) => {
+
+    maidSignin: async (parent, args) => {
+      const maid = await Maid.create(args);
+      const token = signMaidToken(maid);
+
+      return { token, maid };
+    },
+
+    userLogin: async (parent, { email, password }) => {
       const user = await User.findOne({ email });
 
       if (!user) {
@@ -78,38 +132,94 @@ const resolvers = {
         throw new AuthenticationError('Incorrect credentials');
       }
 
-      const token = signToken(user);
+      const token = signUserToken(user);
       return { token, user };
     },
-  //   createReview: async (parent, args, context) => {
-  //     if (context.user) {
-  //       const review = await Review.create({ ...args, username: context.user.username });
 
-  //       await User.findByIdAndUpdate(
-  //         { _id: context.user._id },
-  //         { $push: { reviews: review._id } },
-  //         { new: true }
-  //       );
+    maidLogin: async (parent, { name, password }) => {
+      const maid = await Maid.findOne({ name });
 
-  //       return review;
-  //     }
+      if (!maid) {
+        throw new AuthenticationError('Incorrect credentials');
+      }
 
-  //     throw new AuthenticationError('You need to be logged in!');
-  //   },
-  //   addRating: async (parent, { reviewId, reactionBody }, context) => {
-  //     if (context.user) {
-  //       const updatedReview = await Review.findOneAndUpdate(
-  //         { _id: reviewId },
-  //         { $push: { reactions: { reactionBody, username: context.user.username } } },
-  //         { new: true, runValidators: true }
-  //       );
+      const correctPw = await maid.isCorrectPassword(password);
 
-  //       return updatedReview;
-  //     }
+      if (!correctPw) {
+        throw new AuthenticationError('Incorrect credentials');
+      }
 
-  //     throw new AuthenticationError('You need to be logged in!');
+      const token = signMaidToken(maid);
+      return { token, maid };
+    },
+
+    createReview: async (parent, { reviewText, serviceRating, booking_id, user_id, maid_id }) => {
+
+      const createdReview = await Review.create({
+        reviewText: reviewText,
+        createdForMaid_id: maid_id,
+        createdByUser_id: user_id,
+        serviceRating: serviceRating,
+        booking_id: booking_id,
+        createdAt: Date.now(),
+      });
+
+      await Booking.updateOne(
+        { _id: booking_id },
+        { review: createdReview }
+      );
+      await Maid.updateOne(
+        { _id: maid_id },
+        { $push: { reviews: createdReview } }
+      );
+      await User.updateOne(
+        { _id: user_id },
+        { $push: { reviews: createdReview } }
+      );
+
+      return createdReview;
+    },
+
+
+    createBooking: async (parent, { bookingLocation, user_id, maid_id }) => {
+
+      const createdBooking = await Booking.create({
+        bookingLocation: bookingLocation,
+        maid_id: maid_id,
+        user_id: user_id,
+        paymentPaid: false,
+        paymentAmount: 0,
+        createdAt: Date.now(),
+      });
+
+      await Maid.updateOne(
+        { _id: maid_id },
+        { $push: { bookings: createdBooking } }
+      );
+      await User.updateOne(
+        { _id: user_id },
+        { $push: { bookings: createdBooking } }
+      );
+
+      return createdBooking;
+    },
+
+    //     throw new AuthenticationError('You need to be logged in!');
+    //   },
+    //   addRating: async (parent, { reviewId, reactionBody }, context) => {
+    //     if (context.user) {
+    //       const updatedReview = await Review.findOneAndUpdate(
+    //         { _id: reviewId },
+    //         { $push: { reactions: { reactionBody, username: context.user.username } } },
+    //         { new: true, runValidators: true }
+    //       );
+
+    //       return updatedReview;
+    //     }
+
+    //     throw new AuthenticationError('You need to be logged in!');
     //}
-    }
+  }
 };
 
 module.exports = resolvers;

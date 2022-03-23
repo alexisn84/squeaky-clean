@@ -7,37 +7,39 @@ const typeDefs = gql`
     email: String
     bookings: [Booking]
     reviews: [Review]
-}
+  }
 
   type Maid {
     _id: ID
     name: String
     reviews: [Review]
     bookings: [Booking]
-    userRatings: String
   }
 
   type Review {
     _id: ID
     reviewText: String
+    serviceRating: Int
     createdAt: String
-    username: String
-    maid_id: String    
+    createdByUser_id: String
+    createdForMaid_id: String    
   }
 
-  type userRating {
+  type UserRating {
     _id: ID
     ratingNum: Int
     createdAt: String
-    user_id: String
-    maid_id: String
+    createdByMaid_id: String
+    createdForUser_id: String
   }
  
   type Booking {
     _id: ID
     bookingLocation: String
-    user: User
-    maid: Maid
+    user_id: String
+    maid_id: String
+    paymentPaid: Boolean
+    paymentAmount: Int
     createdAt: String
   }
 
@@ -54,32 +56,41 @@ const typeDefs = gql`
     slots: [Slot]
   }
 
-  type Auth {
+  type AuthUser {
     token: ID
     user: User
+  }
+
+  type AuthMaid {
+    token: ID
     maid: Maid
   }
 
   type Query {
     me: User
+    memd: Maid
+    user(username: String!): User
     users: [User]
-    maid: Maid
+    maid(name: String!): Maid
     maids: [Maid]
     schedule(maidName: String): [Schedule]
-    user(username: String!): User
-    reviews(username: String): [Review]
+    reviewsByUser(createdByUser_id: ID): [Review]
+    reviewsForMaid(createdForMaid_id: ID): [Review]
+    reviews: [Review]
     review(_id: ID!): Review
-    bookings: [Booking!]!
+    bookings: [Booking]
     booking(_id: ID!): Booking
+    bookingsByUser(user_id: ID): [Booking]
+    bookingsForMaid(maid_id: ID): [Booking]
   }
   
   type Mutation {
-    login(email: String!, password: String!): Auth
-    createUser(username: String!, email: String!, password: String!): Auth
-    createReview(reviewText: String!): Review
-    addRating(reviewId: ID!, ratingBody: String!): userRating
-    addBooking(scheduleId: ID!): Booking
-    cancelBooking(bookingId: ID!): Schedule
+    userLogin(email: String!, password: String!): AuthUser
+    maidLogin(name: String!, password: String!): AuthMaid
+    userSignin(username: String!, email: String!, password: String!): AuthUser
+    maidSignin(name: String!, password: String!): AuthMaid 
+    createReview(reviewText: String!, serviceRating: Int!, booking_id: ID!, user_id: ID!, maid_id: ID!): Review
+    createBooking(bookingLocation: String!, user_id: ID!, maid_id: ID!): Booking
   }
 `;
 
