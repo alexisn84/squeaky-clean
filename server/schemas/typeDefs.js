@@ -91,18 +91,10 @@ const typeDefs = gql`
   type Mutation {
     userLogin(email: String!, password: String!): AuthUser
     maidLogin(name: String!, password: String!): AuthMaid
-<<<<<<< HEAD
-    createUser(username: String!, email: String!, password: String!): AuthUser
-    createMaid(name: String!, password: String!): AuthMaid 
-    createReview(reviewText: String!): Review
-    addBooking(scheduleId: ID!): Booking
-    cancelBooking(bookingId: ID!): Booking
-=======
     userSignin(username: String!, email: String!, password: String!): AuthUser
     maidSignin(name: String!, password: String!): AuthMaid 
     createReview(reviewText: String!, serviceRating: Int!, booking_id: ID!, user_id: ID!, maid_id: ID!): Review
     createBooking(bookingLocation: String!, user_id: ID!, maid_id: ID!): Booking
->>>>>>> develop
   }
 `;
 

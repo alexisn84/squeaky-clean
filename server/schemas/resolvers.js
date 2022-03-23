@@ -118,6 +118,7 @@ const resolvers = {
 
       return { token, maid };
     },
+
     userLogin: async (parent, { email, password }) => {
       const user = await User.findOne({ email });
 
