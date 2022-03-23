@@ -19,6 +19,7 @@ const typeDefs = gql`
   type Review {
     _id: ID
     reviewText: String
+    serviceRating: Int
     createdAt: String
     createdByUser_id: String
     createdForMaid_id: String    
@@ -73,20 +74,23 @@ const typeDefs = gql`
     maid(name: String!): Maid
     maids: [Maid]
     schedule(maidName: String): [Schedule]
-    reviews(createdByUser_id: ID): [Review]
+    reviewsByUser(createdByUser_id: ID): [Review]
+    reviewsForMaid(createdForMaid_id: ID): [Review]
+    reviews: [Review]
     review(_id: ID!): Review
     bookings: [Booking]
     booking(_id: ID!): Booking
+    bookingsByUser(user_id: ID): [Booking]
+    bookingsForMaid(maid_id: ID): [Booking]
   }
   
   type Mutation {
     userLogin(email: String!, password: String!): AuthUser
     maidLogin(name: String!, password: String!): AuthMaid
-    createUser(username: String!, email: String!, password: String!): AuthUser
-    createMaid(name: String!, password: String!): AuthMaid 
-    createReview(reviewText: String!): Review
-    addBooking(scheduleId: ID!): Booking
-    cancelBooking(bookingId: ID!): Booking
+    userSignin(username: String!, email: String!, password: String!): AuthUser
+    maidSignin(name: String!, password: String!): AuthMaid 
+    createReview(reviewText: String!, serviceRating: Int!, booking_id: ID!, user_id: ID!, maid_id: ID!): Review
+    createBooking(bookingLocation: String!, user_id: ID!, maid_id: ID!): Booking
   }
 `;
 

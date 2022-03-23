@@ -9,6 +9,12 @@ const reviewSchema = new Schema(
       minlength: 10,
       maxlength: 1000
     },
+    serviceRating: {
+      type: Number,
+      min: [1, 'Must be 1, 2, 3, 4, or 5'],
+      max: [5, 'Must be 1, 2, 3, 4, or 5'],
+      default: 3
+    },
     createdAt: {
       type: Date,
       default: Date.now,
@@ -23,6 +29,11 @@ const reviewSchema = new Schema(
     createdForMaid_id: {
       type: Schema.Types.ObjectId,
       ref: 'Maid',
+      required: true
+    },
+    booking_id: {
+      type: Schema.Types.ObjectId,
+      ref: 'Booking',
       required: true
     }
   },

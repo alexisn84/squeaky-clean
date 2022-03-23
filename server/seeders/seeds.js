@@ -154,6 +154,7 @@ db.once('open', async () => {
     }
 
     const createdBooking = await Booking.create(booking);
+    booking._id = createdBooking._id;
 
     await Maid.updateOne(
       { _id: randomMaidId },
@@ -180,25 +181,32 @@ db.once('open', async () => {
 
     let maidId;
     let userId;
+    let bookingId;
     let paid;
     do {
       // get a random Booking
       const randomBookingIndex = Math.floor(Math.random() * bookings.length);
-      const {user_id, maid_id, paymentPaid} = bookings[randomBookingIndex];
+      const { _id, user_id, maid_id, paymentPaid } = bookings[randomBookingIndex];
       paid = paymentPaid;
       userId = user_id;
       maidId = maid_id;
+      bookingId = _id;
     } while (!paid)
-
     const rating = Math.floor(Math.random() * (5 - 1 + 1) + 1);
 
     const createdReview = await Review.create({
       reviewText: reviewText,
       createdForMaid_id: maidId,
       createdByUser_id: userId,
+      booking_id: bookingId,
+      serviceRating: rating,
       createdAt: Date.now(),
     });
 
+    await Booking.updateOne(
+      { _id: bookingId },
+      { review: createdReview }
+    );
     await Maid.updateOne(
       { _id: maidId },
       { $push: { reviews: createdReview } }
