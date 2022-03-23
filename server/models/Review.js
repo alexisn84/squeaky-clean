@@ -1,5 +1,4 @@
 const { Schema, model } = require('mongoose');
-const ratingSchema = require('./Rating');
 const dateFormat = require('../utils/dateFormat');
 
 const reviewSchema = new Schema(
@@ -8,7 +7,7 @@ const reviewSchema = new Schema(
       type: String,
       required: 'Please leave a review and rate the service!',
       minlength: 10,
-      maxlength: 280
+      maxlength: 1000
     },
     createdAt: {
       type: Date,
@@ -16,18 +15,15 @@ const reviewSchema = new Schema(
       get: timestamp => dateFormat(timestamp),
       timestamp: true
     },
-    createdBy: {
+    createdByUser_id: {
       type: Schema.Types.ObjectId,
-      ref: 'User'
-    },
-    maidId: {
-      type: String,
+      ref: 'User',
       required: true
     },
-    rating: {
-      type: Number,
-      min: 1,
-      max: 5
+    createdForMaid_id: {
+      type: Schema.Types.ObjectId,
+      ref: 'Maid',
+      required: true
     }
   },
   {

@@ -20,10 +20,10 @@ const maidSchema = new Schema(
         ref: 'Review'
       }
     ],
-    schedules: [
+    bookings: [
       {
         type: Schema.Types.ObjectId,
-        ref: 'Schedule'
+        ref: 'Booking'
       }
     ]
   },
@@ -43,24 +43,8 @@ maidSchema.virtual('reviewCount').get(function () {
   return this.reviews.length;
 });
 
-maidSchema.virtual('scheduleCount').get(function () {
-  return this.schedules.length;
-});
-
-maidSchema.virtual('avgRating').get(function () {
-  let sumRatings = 0;
-  let numOfValidRatings = 0;
-  for (let i = 0; i < this.reviews.length; i++) {
-    if (this.reviews[i] &&
-      this.reviews[i].rating >= 1 &&
-      this.reviews[i].rating <= 5) {
-
-      numOfValidRatings++;
-      sumRatings = sumRatings + this.reviews[i].rating;
-    }
-  }
-
-  return Math.round(((sumRatings/validRating) + Number.EPSILON) * 100) / 100;
+maidSchema.virtual('bookingCount').get(function () {
+  return this.bookings.length;
 });
 
 const Maid = model('Maid', maidSchema);

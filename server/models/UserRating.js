@@ -1,17 +1,20 @@
-const { Schema } = require('mongoose');
+const { model, Schema } = require('mongoose');
 const dateFormat = require('../utils/dateFormat');
 
 const ratingSchema = new Schema(
   {
-    userRating: {
-      type: Number
-    },
     ratingNum: {
       type: Number,
       required: true
     },
-    maidname: {
-      type: String,
+    createdByMaid_id: {
+      type: Schema.Types.ObjectId,
+      ref: 'Maid',
+      required: true
+    },
+    createdForUser_id: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
       required: true
     },
     createdAt: {
@@ -26,5 +29,5 @@ const ratingSchema = new Schema(
     }
   }
 );
-
-module.exports = ratingSchema;
+const UserRating = model('UserRating', ratingSchema);
+module.exports = UserRating;
