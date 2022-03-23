@@ -16,6 +16,10 @@ const bookingSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'Maid'
     },
+    review_id: {
+      type: Schema.Types.ObjectId,
+      ref: 'Review'
+    },
     paymentPaid: {
       type: Number,
       required: true
