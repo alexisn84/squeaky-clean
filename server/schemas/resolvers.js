@@ -3,6 +3,9 @@ const ObjectId = require('mongodb').ObjectId;
 const { User, Maid, Booking, Review } = require('../models');
 const { signUserToken, signMaidToken } = require('../utils/auth');
 
+//import Stripe package
+const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
+
 const resolvers = {
   Query: {
 
@@ -68,6 +71,42 @@ const resolvers = {
     },
     booking: async (parent, { _id }) => {
       return Booking.findOne({ _id });
+    },
+    checkout: async (parent, args, context) => {
+      const order = new Order({ bookings: args.bookings });
+      const { bookings } = await order.populate('bookings').execPopulate();
+
+      const line_items = [];
+
+      for (let i = 0; i < bookings.length; i++) {
+        // generate booking id
+        const booking = await stripe.bookings.create({
+          name: bookings[i].name,
+          description: bookings[i].description
+        });
+
+        // generate price id using the product id
+        const price = await stripe.prices.create({
+          booking: booking.id,
+          unit_amount: bookings[i].price * 100,
+          currency: 'usd',
+        });
+
+        // add price id to the line items array
+        line_items.push({
+          price: price.id,
+          quantity: 1
+        });
+      }
+      const session = await stripe.checkout.sessions.create({
+        payment_method_types: ['card'],
+        line_items,
+        mode: 'payment',
+        success_url: 'https://example.com/success?session_id={CHECKOUT_SESSION_ID}',
+        cancel_url: 'https://example.com/cancel'
+      });
+      
+      return { session: session.id };
     }
    },
 
