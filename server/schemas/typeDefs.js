@@ -12,6 +12,7 @@ const typeDefs = gql`
   type Maid {
     _id: ID
     name: String
+    email: String
     reviews: [Review]
     bookings: [Booking]
   }
@@ -56,12 +57,12 @@ const typeDefs = gql`
     slots: [Slot]
   }
 
-  type AuthUser {
+  type Auth {
     token: ID
     user: User
   }
 
-  type AuthMaid {
+  type MaidAuth {
     token: ID
     maid: Maid
   }
@@ -89,10 +90,10 @@ const typeDefs = gql`
   }
   
   type Mutation {
-    userLogin(email: String!, password: String!): AuthUser
-    maidLogin(name: String!, password: String!): AuthMaid
-    userSignin(username: String!, email: String!, password: String!): AuthUser
-    maidSignin(name: String!, password: String!): AuthMaid 
+    login(email: String!, password: String!): Auth
+    signin(username: String!, email: String!, password: String!): Auth
+    maidLogin(email: String!, password: String!): MaidAuth
+    maidSignin(name: String!, email: String!, password: String!): MaidAuth
     createReview(reviewText: String!, serviceRating: Int!, booking_id: ID!, user_id: ID!, maid_id: ID!): Review
     createBooking(bookingLocation: String!, user_id: ID!, maid_id: ID!): Booking
   }

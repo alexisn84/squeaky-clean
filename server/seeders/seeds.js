@@ -89,7 +89,9 @@ db.once('open', async () => {
       nameArr = name.split(' ');
     } while (nameArr.length != 2)
 
-    maids.push({ name, password });
+    const email = faker.internet.email(nameArr[0]);
+    
+    maids.push({ name, email, password });
   }
   const maidSeed = [
     {
