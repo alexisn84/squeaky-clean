@@ -51,10 +51,13 @@ const typeDefs = gql`
 
   type Schedule {
     _id: ID
-    schedule: String
-    maidName: String
-    date: String
-    slots: [Slot]
+    scheduleDesc: String
+    maid_id: String
+    booking_id: String
+    scheduleDate: String
+    startTime: String
+    endTime: String
+    status: String
   }
 
   type Auth {
@@ -65,16 +68,6 @@ const typeDefs = gql`
   type MaidAuth {
     token: ID
     maid: Maid
-  }
-
-  type Order {
-    _id: ID
-    purchaseDate: String
-    bookings: [Booking]
-  }
-
-  type Checkout {
-    session: ID
   }
 
   type Query {
@@ -91,10 +84,9 @@ const typeDefs = gql`
     review(_id: ID!): Review
     bookings: [Booking]
     booking(_id: ID!): Booking
-    bookingsByUser(user_id: ID): [Booking]
-    bookingsForMaid(maid_id: ID): [Booking]
-    order(bookings_id: ID!): Order
-    checkout(bookings: [ID]!) : Checkout
+    bookingsByUser(user_id: ID!): [Booking]
+    bookingsForMaid(maid_id: ID!): [Booking]
+    scheduleForMaid(maid_id: ID!): [Schedule]
   }
   
   type Mutation {
@@ -104,7 +96,7 @@ const typeDefs = gql`
     maidSignin(name: String!, email: String!, password: String!): MaidAuth
     createReview(reviewText: String!, serviceRating: Int!, booking_id: ID!, user_id: ID!, maid_id: ID!): Review
     createBooking(bookingLocation: String!, user_id: ID!, maid_id: ID!): Booking
-    addOrder(products: [ID]!): Order
+    createSchedule(scheduleDesc: String, maid_id: ID!, booking_id: ID!, scheduleDate: String!, startTime: String!, endTime: String): Schedule
   }
 `;
 
