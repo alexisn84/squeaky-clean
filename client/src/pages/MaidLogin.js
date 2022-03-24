@@ -12,8 +12,9 @@ import LoginImage from '../assets/login/login.webp';
 // import component
 import MainNavBar from '../components/Navigation/MainNavBar';
 
+
 //import pages
-// import MaidDashboard from './MaidDashboard'; 
+import MaidDashboard from './MaidDashboard'; 
 
 const MaidLogin = (props) => {
     const [formState, setFormState] = useState({ email: '', password: '' });
@@ -94,6 +95,7 @@ const MaidLogin = (props) => {
                       <button className="button is-info">
                       Submit
                       </button>
+
                     </p>
                   </div>
                 </form>
@@ -102,7 +104,6 @@ const MaidLogin = (props) => {
             </div>
           </div>
           </div>
-          
         </main>
     );
 };

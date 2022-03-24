@@ -7,9 +7,11 @@ import {
   createHttpLink,
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
+import "./App.css"
 
 //import componenets
 import Footer from './components/Footer/Footer';
+import Rate from './components/Rating';
 
 
 //import pages
@@ -19,7 +21,7 @@ import MaidLogin from './pages/MaidLogin';
 import Signup from './pages/Signup';
 //import Rating from './components/Rating';
 // import UserDashboard from './pages/UserDashboard';
-// import MaidDashboard from "./pages/MaidDashboard";
+import MaidDashboard from "./pages/MaidDashboard";
 
 //setup graphql and auth
 const httpLink = createHttpLink({
@@ -52,7 +54,8 @@ function App() {
                   <Route path="/login" element={<Login/>} />
                   <Route path="/maidlogin" element={<MaidLogin/>} />
                   <Route path="/signup" element={<Signup/>} />
-                  {/* <Route path="/maiddashboard" element={<MaidDashboard/>} /> */}
+                  <Route path="/maiddashboard" element={<MaidDashboard/>} />
+                  <Route path="/maiddashboard" element={<Rate/>} />
 
               </Routes>
           </Router>
