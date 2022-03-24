@@ -9,6 +9,7 @@ import {
 import { setContext } from '@apollo/client/link/context';
 
 //import componenets
+import Footer from './components/Footer/Footer';
 
 
 //import pages
@@ -40,6 +41,7 @@ const client = new ApolloClient({
 
 function App() {
     return (
+      <div>
         <ApolloProvider client={client}>
           <Router> 
               <Routes>
@@ -50,6 +52,9 @@ function App() {
               </Routes>
           </Router>
         </ApolloProvider>
+        <Footer/>
+      </div>
+
     );
 }
 
