@@ -60,3 +60,18 @@ export const ADD_BOOKING = gql`
     }
   }
 `;
+
+export const ADD_ORDER = gql`
+  mutation addOrder($bookings: [ID]!) {
+    addOrder(bookings: $bookings) {
+      purchaseDate
+      bookings {
+        _id
+        name
+        description
+        price
+        quantity
+      }
+    }
+  }
+`;

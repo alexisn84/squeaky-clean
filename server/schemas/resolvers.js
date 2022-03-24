@@ -2,6 +2,7 @@ const { AuthenticationError } = require('apollo-server-express');
 const ObjectId = require('mongodb').ObjectId;
 const { User, Maid, Booking, Review } = require('../models');
 const { signToken, maidSignToken } = require('../utils/auth');
+const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
 
 const resolvers = {
   Query: {
@@ -102,6 +103,18 @@ const resolvers = {
         return Booking.find({ maid_id: ObjectId(maid_id) })
       }
       return Booking.find(params).sort({ createdAt: -1 });
+    },
+    order: async (parent, { _id }, context) => {
+      if (context.user) {
+        const user = await User.findById(context.user._id).populate({
+          path: 'orders.bookings',
+          populate: 'booking'
+        });
+
+        return user.orders.id(_id);
+      }
+
+      throw new AuthenticationError('Not logged in');
     },
     checkout: async (parent, args, context) => {
       const url = new URL(context.headers.referer).origin;
@@ -256,7 +269,18 @@ const resolvers = {
 
       throw new AuthenticationError('Not logged in');
     },
+    addOrder: async (parent, { products }, context) => {
+      console.log(context);
+      if (context.user) {
+        const order = new Order({ products });
 
+        await User.findByIdAndUpdate(context.user._id, { $push: { orders: order } });
+
+        return order;
+      }
+
+      throw new AuthenticationError('Not logged in');
+    },
     //     throw new AuthenticationError('You need to be logged in!');
     //   },
     //   addRating: async (parent, { reviewId, reactionBody }, context) => {
