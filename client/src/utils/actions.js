@@ -1,4 +1,4 @@
-// export const UPDATE_BOOKINGS = "UPDATE_BOOKINGS";
+export const UPDATE_BOOKINGS = "UPDATE_BOOKINGS";
 
 export const ADD_TO_CART = "ADD_TO_CART";
 export const ADD_MULTIPLE_TO_CART = "ADD_MULTIPLE_TO_CART";
