@@ -88,28 +88,36 @@ db.once('open', async () => {
       nameArr = name.split(' ');
     } while (nameArr.length != 2)
 
-    maids.push({ name, password });
+    const email = faker.internet.email(nameArr[0]);
+    
+    maids.push({ name, email, password });
   }
   const maidSeed = [
     {
       name: 'Bubbly Brenda',
-      email: 'bbrenda@squeakyclean.com'
+      email: 'bbrenda@squeakyclean.com',
+      password
+
     },
     {
       name: 'Cleaning Cindy',
-      email: 'ccindy@squeakyclean.com'
+      email: 'ccindy@squeakyclean.com',
+      password
     },
     {
       name: 'Sparkling Sarah',
-      email: 'ssarah@squeakyclean.com'
+      email: 'ssarah@squeakyclean.com',
+      password
     },
     {
       name: 'Mopping Mary',
-      email: 'mmary@squeakyclean.com'
+      email: 'mmary@squeakyclean.com',
+      password
     },
     {
       name: 'Dust-Away Daryl',
-      email: 'ddaryl@squeakyclean.com'
+      email: 'ddaryl@squeakyclean.com',
+      password
     },
   ];
 
