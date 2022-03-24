@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDom from 'react-dom';
+import {Link } from 'react-router-dom';
 import '../index.css';
 
 // Image Imports!
@@ -23,7 +23,7 @@ export default function Home() {
                     <div className="subtitile is-5 p-2">
                         Your home will be cleaned to your higest expectations by trained professionals at surprisingly affordable rates. Your home and your priorities. We take pride in providing cleaning services that match your needs and your budget. It is time to discover the magic of Sparkling Spaces. 
                     </div>
-                    <button className="button is-info is-medium m-2">Login to Schedule</button>
+                    <Link to="login"><button className="button is-info is-medium m-2">Login to Schedule</button></Link>
                 </div>
                 <div className="column is-two-thirds is-centered">
                     <figure className="image is-5by3 m-6">

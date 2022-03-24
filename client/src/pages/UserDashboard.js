@@ -11,14 +11,16 @@ import { QUERY_USER, QUERY_ME, QUERY_MAIDS } from '../utils/queries';
 import { ADD_BOOKING, ADD_REVIEW } from '../utils/mutations';
 import Auth from '../utils/auth';
 
+import HeaderImage from '../assets/dashboard/dashboard.png';
+
 const UserDashboard = (props) => {
     const { username: userParam } = useParams();
- 
+
     const [addBooking] = useMutation(ADD_BOOKING);
     const {maidList} = useQuery(QUERY_MAIDS);
     
     const [addReview] = useMutation(ADD_REVIEW);
-       
+
     const { loading, data } = useQuery(userParam ? QUERY_USER : QUERY_ME, {
         variables: { username: userParam },
     });
@@ -27,15 +29,15 @@ const UserDashboard = (props) => {
 
     // redirect to personal profile page if username is yours
     if (Auth.loggedIn() && Auth.getProfile().data.username === userParam) {
-        return <Redirect to="/profile" />;
+        return <Link to="/profile" />;
     }
 
     if (!user?.username) {
-        return (
-        <h4>
-            Please login to see your Profile
-        </h4>
-        );
+      return (
+      <h4>
+          Please login to see your Profile
+      </h4>
+      );
     }
 
     //click function to schedule booking
@@ -73,8 +75,14 @@ const UserDashboard = (props) => {
 
     
   return (
-    <div>
-      <div className="">
+    <main>
+    <div id="user-dashboard">
+      <div className='section'>
+                <figure className="image is-5x4 is-inline-block">
+                  <img src={HeaderImage} alt="girl browsing online"/>
+                </figure>
+              </div>
+      <div className="section">
       <h2 className="">
           Welcome Back {userParam ? `${user.username}` : ' to your'} dashboard.
         </h2>
@@ -88,7 +96,7 @@ const UserDashboard = (props) => {
             // title={`${user.username}'s Scheduled Cleanings'`}
           />
           {/* schedule cleaning button click */}
-           {userParam && (
+          {userParam && (
           <button className='' onClick={handleClick}>
             Schedule a Cleaning
             </button>
@@ -132,6 +140,7 @@ const UserDashboard = (props) => {
       <div className=''>{!userParam && <BookingList /> && <ReviewList />  && <ReviewForm />}
       </div>
     </div>
+    </main>
   );
 };
 
