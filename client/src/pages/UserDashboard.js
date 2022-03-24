@@ -1,5 +1,5 @@
 import React from 'react';
-import { Redirect, useParams, Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 import ReviewForm from '../components/ReviewForm';
 import ReviewList from '../components/ReviewList';
@@ -7,7 +7,7 @@ import BookingList from '../components/BookingList';
 
 
 import { useQuery, useMutation } from '@apollo/client';
-import { QUERY_USER, QUERY_ME, QUERY_MAIDS } from '../utils/queries';
+import { QUERY_USER, QUERY_ME, QUERY_MAIDS, QUERY_BOOKINGS } from '../utils/queries';
 import { ADD_BOOKING, ADD_REVIEW } from '../utils/mutations';
 import Auth from '../utils/auth';
 
@@ -30,6 +30,10 @@ const UserDashboard = (props) => {
     // redirect to personal profile page if username is yours
     if (Auth.loggedIn() && Auth.getProfile().data.username === userParam) {
         return <Link to="/profile" />;
+    }
+
+    if (loading) {
+      return <div>Loading ...</div>;
     }
 
     if (!user?.username) {

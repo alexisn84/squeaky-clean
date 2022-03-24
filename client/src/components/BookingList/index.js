@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+import { UPDATE_BOOKINGS } from '../../utils/actions';
+
 const BookingList = ({ bookings }) => {
     if (!bookings.length) {
         return <h3>No Scheduled Cleanings yet!</h3>;

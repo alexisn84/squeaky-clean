@@ -67,6 +67,12 @@ const typeDefs = gql`
     maid: Maid
   }
 
+  type Order {
+    _id: ID
+    purchaseDate: String
+    bookings: [Booking]
+  }
+
   type Checkout {
     session: ID
   }
@@ -87,6 +93,7 @@ const typeDefs = gql`
     booking(_id: ID!): Booking
     bookingsByUser(user_id: ID): [Booking]
     bookingsForMaid(maid_id: ID): [Booking]
+    order(bookings_id: ID!): Order
     checkout(bookings: [ID]!) : Checkout
   }
   
@@ -97,6 +104,7 @@ const typeDefs = gql`
     maidSignin(name: String!, email: String!, password: String!): MaidAuth
     createReview(reviewText: String!, serviceRating: Int!, booking_id: ID!, user_id: ID!, maid_id: ID!): Review
     createBooking(bookingLocation: String!, user_id: ID!, maid_id: ID!): Booking
+    addOrder(products: [ID]!): Order
   }
 `;
 
