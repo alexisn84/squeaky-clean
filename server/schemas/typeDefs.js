@@ -70,6 +70,12 @@ const typeDefs = gql`
     maid: Maid
   }
 
+  type Order {
+    _id: ID
+    purchaseDate: String
+    bookings: [Booking]
+  }
+
   type Query {
     me: User
     memd: Maid
@@ -87,6 +93,7 @@ const typeDefs = gql`
     bookingsByUser(user_id: ID!): [Booking]
     bookingsForMaid(maid_id: ID!): [Booking]
     scheduleForMaid(maid_id: ID!): [Schedule]
+    order(bookings_id: ID!): Order
   }
   
   type Mutation {
@@ -97,6 +104,7 @@ const typeDefs = gql`
     createReview(reviewText: String!, serviceRating: Int!, booking_id: ID!, user_id: ID!, maid_id: ID!): Review
     createBooking(bookingLocation: String!, user_id: ID!, maid_id: ID!): Booking
     createSchedule(scheduleDesc: String, maid_id: ID!, booking_id: ID!, scheduleDate: String!, startTime: String!, endTime: String): Schedule
+    addOrder(products: [ID]!): Order
   }
 `;
 
