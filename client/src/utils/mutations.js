@@ -31,22 +31,17 @@ export const ADD_REVIEW = gql`
       reviewText
       createdAt
       username
-      reactionCount
-      reactions {
-        _id
-      }
     }
   }
 `;
 
 export const ADD_RATING = gql`
-  mutation addRating($ReviewId: ID!, $reactionBody: String!) {
-    addRating(reviewId: $reviewId, ratingBody: $ratingBody) {
+  mutation addRating($BookingId: ID!, $reactionBody: String!) {
+    addRating(BookingId: $BookingId, ratingBody: $ratingBody) {
       _id
       ratingCount
       ratings {
         _id
-        ratingBody
         createdAt
         username
       }

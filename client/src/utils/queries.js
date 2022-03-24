@@ -1,12 +1,40 @@
 import { gql } from '@apollo/client';
 
 export const QUERY_BOOKINGS = gql`
-  query bookings($booking: String){
+  query getbookings($booking: String){
     _id
+    name
+    description
+    price
+    quantity
     time
     date
   }
 `;
+
+export const QUERY_ALL_BOOKINGS = gql`
+  {
+    bookings {
+      _id
+      name
+      description
+      price
+      quantity
+      time
+      date
+    }
+  }
+`;
+
+//for checkout with Stripe
+export const QUERY_CHECKOUT = gql`
+  query getPayment($products: [ID]!) {
+    checkout(bookings: $bookings) {
+      session
+    }
+  }
+`;
+
 
 export const QUERY_MAIDS = gql`
   query maids($maid: String) {
@@ -16,7 +44,6 @@ export const QUERY_MAIDS = gql`
       ratings {
         _id
         createdAt
-        ratingBody
         username
       }
     }
@@ -50,10 +77,10 @@ export const QUERY_EMPL = gql`
         time
         date
       }
-      ratings {
+      reviews {
         _id
         createdAt
-        ratingBody
+        reviewBody
         username
       }
     }

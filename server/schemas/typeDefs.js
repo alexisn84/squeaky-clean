@@ -67,6 +67,10 @@ const typeDefs = gql`
     maid: Maid
   }
 
+  type Checkout {
+    session: ID
+  }
+
   type Query {
     me: User
     memd: Maid
@@ -83,6 +87,7 @@ const typeDefs = gql`
     booking(_id: ID!): Booking
     bookingsByUser(user_id: ID): [Booking]
     bookingsForMaid(maid_id: ID): [Booking]
+    checkout(bookings: [ID]!) : Checkout
   }
   
   type Mutation {

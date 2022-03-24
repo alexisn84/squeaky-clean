@@ -78,6 +78,7 @@ db.once('open', async () => {
   /*************/
 
   const maids = [];
+  //const mdPassword = await bcrypt.hash('password123', SALT_ROUNDS);
 
   for (let i = 0; i < 20; i += 1) {
     let name;
@@ -97,7 +98,6 @@ db.once('open', async () => {
       name: 'Bubbly Brenda',
       email: 'bbrenda@squeakyclean.com',
       password
-
     },
     {
       name: 'Cleaning Cindy',
@@ -226,10 +226,8 @@ db.once('open', async () => {
   }
 /*
   const schedules = [];
-
   for (let i = 0; i < 20; i += 1) {
     const randomMaidIndex = Math.floor(Math.random() * maids.length);
-
     schedules.push({
       // TODO: Probably want to associate Schedules to Maids by maid._id and not maid.name
       maidName: maids[randomMaidIndex].name,
@@ -240,7 +238,6 @@ db.once('open', async () => {
       ],
     });
   }
-
   await Schedule.collection.insertMany(schedules);
 */
   //MAIDS
@@ -376,4 +373,3 @@ db.once('open', async () => {
 
   process.exit(0);
 });
-
