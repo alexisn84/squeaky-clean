@@ -103,6 +103,42 @@ const resolvers = {
       }
       return Booking.find(params).sort({ createdAt: -1 });
     },
+    checkout: async (parent, args, context) => {
+      const url = new URL(context.headers.referer).origin;
+      const order = new Order({ bookings: args.bookings });
+      const line_items = [];
+
+      const { bookings } = await order.populate('bookings').execPopulate();
+
+      for (let i = 0; i < bookings.length; i++) {
+        const booking = await stripe.bookings.create({
+          name: bookings[i].name,
+          description: bookings[i].description,
+          images: [`${url}/images/${bookings[i].image}`]
+        });
+
+        const price = await stripe.prices.create({
+          product: booking.id,
+          unit_amount: bookings[i].price * 100,
+          currency: 'usd',
+        });
+
+        line_items.push({
+          price: price.id,
+          quantity: 1
+        });
+      }
+
+      const session = await stripe.checkout.sessions.create({
+        payment_method_types: ['card'],
+        line_items,
+        mode: 'payment',
+        success_url: `${url}/success?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${url}/`
+      });
+
+      return { session: session.id };
+    }
   },
 
   Mutation: {
