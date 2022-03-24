@@ -1,8 +1,9 @@
 import React from 'react';
-import ReactDom from 'react-dom';
+import {Link } from 'react-router-dom';
 import '../index.css';
 
 // Image Imports!
+import Logo from '../assets/logo/logo.png';
 import HeaderImg from '../assets/header/clean.jpg';
 import About1 from '../assets/about/about1.png';
 import About2 from '../assets/about/about2.png';
@@ -12,6 +13,42 @@ import Testimonial2 from '../assets/testimonials/testimonial2.jpg';
 import Testimonial3 from '../assets/testimonials/testimonial3.jpg';
 
 export default function Home() {
+
+    const Nav = () => {
+        return (
+            <div className='navbar-menu'>
+                <div className="navbar-brand">
+                    <a className="navbar-item" href="#header">
+                        <img src={Logo} alt="logo"/>
+                        SPARKLING SPACES
+                    </a>
+                </div>
+                <div className='navbar-start'>
+                    <a className='navbar-item' href='#about'>
+                        About
+                    </a>
+                    <a className='navbar-item' href='#rates'>
+                        Rates
+                    </a>
+                    <a className='navbar-item' href='#testimonials'>
+                        Testimonials
+                    </a>
+                </div>
+                <div className="navbar-end">
+                    <div className="navbar-item">
+                        <div className="buttons">
+                            <button className="button is-primary">
+                                Sign up
+                            </button>
+                            <Link to='login'><button className="button is-info">
+                                Log in
+                            </button></Link>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        )
+    }
 
     const Header = () => {
         return (
@@ -23,7 +60,7 @@ export default function Home() {
                     <div className="subtitile is-5 p-2">
                         Your home will be cleaned to your higest expectations by trained professionals at surprisingly affordable rates. Your home and your priorities. We take pride in providing cleaning services that match your needs and your budget. It is time to discover the magic of Sparkling Spaces. 
                     </div>
-                    <button className="button is-info is-medium m-2">Login to Schedule</button>
+                    <Link to='login'><button className="button is-info is-medium m-2">Login to Schedule</button></Link>
                 </div>
                 <div className="column is-two-thirds is-centered">
                     <figure className="image is-5by3 m-6">
@@ -36,7 +73,7 @@ export default function Home() {
 
     const About = () => {
         return (
-            <div id="about" className="container is-fluid">
+            <div id="about" className="section is-large has-background-info-light">
                 <div className='title is-2 has-text-centered'>
                 Sparkling Spaces provides residential <br/> cleaning services to the Orlando, FL area!
                 </div>
@@ -69,7 +106,7 @@ export default function Home() {
 
     const Rates = () => {
         return (
-            <div id="rates" className="container is-fluid mt-6">
+            <div id="rates" className="section is-large">
                 <div className='title is-2 has-text-centered'>Rates</div>
                 <div className='subtitle is-5 has-text-centered'>
                 Price is an accurate estimate based on standard scope of work. Upon booking, a maid will work with you to create a custom-made cleaning list to make sure your priorities are met.
@@ -87,7 +124,7 @@ export default function Home() {
 
     const Testimonials = () => {
         return (
-            <div id="testimonials" className="container is-fluid mt-6">
+            <div id="testimonials" className="section is-large has-background-info-light">
                 <div className='title is-2 has-text-centered'>
                 What Our Customers Say
                 </div>
@@ -125,6 +162,7 @@ export default function Home() {
     
     return (
         <div id="landing-body">
+            <Nav/>
             <Header/>
             <About/>
             <Rates/>
