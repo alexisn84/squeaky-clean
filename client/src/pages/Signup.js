@@ -38,7 +38,10 @@ const Signup = () => {
     };
 
     return (
-        <main></main>
+        <main>
+
+            
+        </main>
     );
 };
 
