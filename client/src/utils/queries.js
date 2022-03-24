@@ -1,14 +1,33 @@
 import { gql } from '@apollo/client';
 
 export const QUERY_BOOKINGS = gql`
-  query bookings($booking: String){
+  query getbookings($booking: String){
     _id
+    name
+    description
+    price
+    quantity
     time
     date
   }
 `;
 
-export const QUERY_PAYMENT = gql`
+export const QUERY_ALL_BOOKINGS = gql`
+  {
+    bookings {
+      _id
+      name
+      description
+      price
+      quantity
+      time
+      date
+    }
+  }
+`;
+
+//for checkout with Stripe
+export const QUERY_CHECKOUT = gql`
   query getPayment($products: [ID]!) {
     checkout(bookings: $bookings) {
       session
