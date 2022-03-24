@@ -154,55 +154,71 @@ const resolvers = {
       return { token, maid };
     },
 
-    createReview: async (parent, { reviewText, serviceRating, booking_id, user_id, maid_id }) => {
+    createReview: async (parent, { reviewText, serviceRating, booking_id, user_id, maid_id }, context) => {
 
-      const createdReview = await Review.create({
-        reviewText: reviewText,
-        createdForMaid_id: maid_id,
-        createdByUser_id: user_id,
-        serviceRating: serviceRating,
-        booking_id: booking_id,
-        createdAt: Date.now(),
-      });
+      if (context.member) {
+        if (context.member.name) {
+          throw new AuthenticationError('Maid cannot write Reviews!');
+        }
 
-      await Booking.updateOne(
-        { _id: booking_id },
-        { review: createdReview }
-      );
-      await Maid.updateOne(
-        { _id: maid_id },
-        { $push: { reviews: createdReview } }
-      );
-      await User.updateOne(
-        { _id: user_id },
-        { $push: { reviews: createdReview } }
-      );
+        const createdReview = await Review.create({
+          reviewText: reviewText,
+          createdForMaid_id: maid_id,
+          createdByUser_id: user_id,
+          serviceRating: serviceRating,
+          booking_id: booking_id,
+          createdAt: Date.now(),
+        });
 
-      return createdReview;
+        await Booking.updateOne(
+          { _id: booking_id },
+          { review: createdReview }
+        );
+        await Maid.updateOne(
+          { _id: maid_id },
+          { $push: { reviews: createdReview } }
+        );
+        await User.updateOne(
+          { _id: user_id },
+          { $push: { reviews: createdReview } }
+        );
+
+        return createdReview;
+      }
+
+      throw new AuthenticationError('Not logged in');
     },
 
 
-    createBooking: async (parent, { bookingLocation, user_id, maid_id }) => {
+    createBooking: async (parent, { bookingLocation, user_id, maid_id }, context) => {
 
-      const createdBooking = await Booking.create({
-        bookingLocation: bookingLocation,
-        maid_id: maid_id,
-        user_id: user_id,
-        paymentPaid: false,
-        paymentAmount: 0,
-        createdAt: Date.now(),
-      });
+      if (context.member) {
+        if (context.member.name) {
+          throw new AuthenticationError('Maid cannot create a Booking!');
+        }
 
-      await Maid.updateOne(
-        { _id: maid_id },
-        { $push: { bookings: createdBooking } }
-      );
-      await User.updateOne(
-        { _id: user_id },
-        { $push: { bookings: createdBooking } }
-      );
+        const createdBooking = await Booking.create({
+          bookingLocation: bookingLocation,
+          maid_id: maid_id,
+          user_id: user_id,
+          paymentPaid: false,
+          paymentAmount: 0,
+          createdAt: Date.now(),
+        });
 
-      return createdBooking;
+        await Maid.updateOne(
+          { _id: maid_id },
+          { $push: { bookings: createdBooking } }
+        );
+        await User.updateOne(
+          { _id: user_id },
+          { $push: { bookings: createdBooking } }
+        );
+
+        return createdBooking;
+      }
+
+      throw new AuthenticationError('Not logged in');
     },
 
     //     throw new AuthenticationError('You need to be logged in!');
