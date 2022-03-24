@@ -35,6 +35,12 @@ const reviewSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'Booking',
       required: true
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now,
+      get: timestamp => dateFormat(timestamp),
+      timestamp: true
     }
   },
   {

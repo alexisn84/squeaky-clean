@@ -5,9 +5,10 @@ const {
   User,
   Review,
   Maid,
-  UserRating,
+  Schedule,
   Booking,
 } = require('../models');
+const { isConstValueNode } = require('graphql');
 
 const SALT_ROUNDS = 10;
 
@@ -16,8 +17,7 @@ async function deleteCollections() {
   await Maid.deleteMany({});
   await Booking.deleteMany({});
   await Review.deleteMany({});
-  //await UserRating.deleteMany({});
-  //await Schedule.deleteMany({});
+  await Schedule.deleteMany({});
 }
 
 db.once('open', async () => {
@@ -78,7 +78,6 @@ db.once('open', async () => {
   /*************/
 
   const maids = [];
-  //const mdPassword = await bcrypt.hash('password123', SALT_ROUNDS);
 
   for (let i = 0; i < 20; i += 1) {
     let name;
@@ -90,7 +89,7 @@ db.once('open', async () => {
     } while (nameArr.length != 2)
 
     const email = faker.internet.email(nameArr[0]);
-    
+
     maids.push({ name, email, password });
   }
   const maidSeed = [
@@ -98,6 +97,7 @@ db.once('open', async () => {
       name: 'Bubbly Brenda',
       email: 'bbrenda@squeakyclean.com',
       password
+
     },
     {
       name: 'Cleaning Cindy',
@@ -224,152 +224,45 @@ db.once('open', async () => {
       { $push: { reviews: createdReview } }
     );
   }
-/*
+
+  // create a schedule for each booking
   const schedules = [];
-  for (let i = 0; i < 20; i += 1) {
-    const randomMaidIndex = Math.floor(Math.random() * maids.length);
-    schedules.push({
-      // TODO: Probably want to associate Schedules to Maids by maid._id and not maid.name
-      maidName: maids[randomMaidIndex].name,
-      date: Date.now(),
-      slots: [
-        { start: 10, finish: 12 },
-        { start: 14, finish: 17 },
-      ],
+  maidsBooked = [];
+
+  for (let i = 0; i < bookings.length; i++) {
+    const booking = bookings[i];
+    const maidId = booking.maid_id;
+    const bookingId = booking._id;
+    const maidNum = maidsBooked.filter(k => k === maidId).length
+    const today = new Date();
+    // adjust workday date
+    const adjDay = new Date(today.setDate(today.getDate() - maidNum));
+    const scheduleDate = new Date(adjDay.getFullYear(), adjDay.getMonth(), adjDay.getDate(), 0, 0, 0);
+    const startDatetime = new Date(adjDay.getFullYear(), adjDay.getMonth(), adjDay.getDate(), 10, 0, 0);
+    const endDatetime = new Date(adjDay.getFullYear(), adjDay.getMonth(), adjDay.getDate(), 14, 30, 0);
+    const status = booking.paymentPaid ? 'complete' : 'scheduled';
+
+    const createdSchedule = await Schedule.create({
+      scheduleDesc: ('Clean job: ' + (i + 1)),
+      maid_id: maidId,
+      booking_id: bookingId,
+      scheduleDate: scheduleDate,
+      startTime: startDatetime,
+      endTime: endDatetime,
+      status: status
     });
+
+
+    await Booking.updateOne(
+      { _id: bookingId },
+      { schedule_id: createdSchedule._id }
+    );
   }
-  await Schedule.collection.insertMany(schedules);
-*/
-  //MAIDS
-  // const maidSeed = [
-  //   {
-  //     name: 'Bubbly Brenda',
-  //     email: 'bbrenda@squeakyclean.com',
-  //     review_id: [1, 6, 11]
-  //   },
-  //   {
-  //     name: 'Cleaning Cindy',
-  //     email: 'ccindy@squeakyclean.com',
-  //     review_id: [2, 7, 13]
-  //   },
-  //   {
-  //     name: 'Sparkling Sarah',
-  //     email: 'ssarah@squeakyclean.com',
-  //     review_id: [3, 8, 14]
-  //   },
-  //   {
-  //     name: 'Mopping Mary',
-  //     email: 'mmary@squeakyclean.com',
-  //     review_id: [4, 9, 14]
-  //   },
-  //   {
-  //     name: 'Dust-Away Daryl',
-  //     email: 'ddaryl@squeakyclean.com',
-  //     review_id: [5, 10, 15]
-  //   },
-  // ];
 
-  // await Maid.collection.insertMany(maidSeed);
-
-  //SCHEDULES
-
-  //REVIEWS
-  // const reviewSeed = [
-  //   {
-  //       title: 'Happiness from cleaning',
-  //       review_text: 'The objective of cleaning is not just to clean, but to feel happiness living within that environment.',
-  //       user_id: 623627290967569714190652,
-  //       maid_id: '62362729096756971419065a'
-  //   },
-  //   {
-  //       title: 'Cleanliness',
-  //       review_text: 'Nothing inspires cleanliness more than an unexpected guest.',
-  //       user_id: 623627290967569714190653,
-  //       maid_id: 623627290967569714190659
-  //   },
-  //   {
-  //       title: 'Dreams of a Clean House',
-  //       review_text: 'We dream of having a clean house — but who dreams of actually doing the cleaning?',
-  //       user_id: 623627290967569714190654,
-  //       maid_id: '62362729096756971419065b'
-  //   },
-  //   {
-  //       title: 'No Secrets',
-  //       review_text: 'I make no secret of the fact that I would rather lie on a sofa than sweep beneath it.',
-  //       user_id: 623627290967569714190655,
-  //       maid_id: '62362729096756971419065c'
-  //   },
-  //   {
-  //       title: 'Cleaning can kill',
-  //       review_text: "Housework can't kill you, but why take the chance?",
-  //       user_id: 623627290967569714190656,
-  //       maid_id: 623627290967569714190658
-  //   },
-  //   {
-  //       title: 'Excellent Cleaning',
-  //       review_text: 'The quality of cleaning is excellent. They are dependable. ',
-  //       user_id: 623627290967569714190652,
-  //       maid_id: "62362729096756971419065a"
-  //   },
-  //   {
-  //       title: 'Professional Cleaning',
-  //       review_text: "They are efficient, professional, and affordable. Thanks to all!",
-  //       user_id: 623627290967569714190653,
-  //       maid_id: '62362729096756971419065b'
-  //   },
-  //   {
-  //       title: 'Thorough Cleaning',
-  //       review_text: "They are very thorough and always ask if there is anything else they can do",
-  //       user_id: 623627290967569714190654,
-  //       maid_id: '62362729096756971419065c'
-  //   },
-  //   {
-  //       title: 'Outstanding Service',
-  //       review_text: "The service was outstanding, exceptional, reliable, dependable, and extremely professional.",
-  //       user_id: 623627290967569714190655,
-  //       maid_id: 623627290967569714190658
-  //   },
-  //   {
-  //       title: 'Diligent worker',
-  //       review_text: "Daryl worked diligently and continually asked questions to clarify what I wanted..",
-  //       user_id: 623627290967569714190656,
-  //       maid_id: 623627290967569714190659
-  //   },
-  //   {
-  //       title: 'convenience extrdanaire',
-  //       review_text: ' they came by on relatively short notice, and on a holiday, no less. This is an excellent cleaning service and customer service!  ',
-  //       user_id: 623627290967569714190652,
-  //       maid_id: '62362729096756971419065b'
-  //   },
-  //   {
-  //       title: 'Great idea including housekeeping in the rent',
-  //       review_text: "The cleaning itself was very, very thorough; hardwood floors are gleaming clean by the time she is done! ",
-  //       user_id: 623627290967569714190653,
-  //       maid_id: '62362729096756971419065c'
-  //   },
-  //   {
-  //       title: 'Never leaving this complex',
-  //       review_text: "Great job with kitchen (fridge or oven upon request, but they did some dishes I accidentally left in the sink, and took out the trash!), bathroom, floors (moved all the furniture), ",
-  //       user_id: 623627290967569714190654,
-  //       maid_id: 623627290967569714190658
-  //   },
-  //   {
-  //       title: 'Great cleaning and availability',
-  //       review_text: "hey did a wonderful job of vaccuuming, cleaning the bathrooms and kitchen, making the bed, everything. There were a few sneaky corners with cobwebs missed, ",
-  //       user_id: 623627290967569714190655,
-  //       maid_id: 623627290967569714190659
-  //   },
-  //   {
-  //       title: 'so nice to come home and sparkling clean',
-  //       review_text: " They bring everything they need and when they leave the house sparkles--baseboards, window sills, everything.  also exceeded my expectations by airing out the rugs and doormat",
-  //       user_id: 623627290967569714190656,
-  //       maid_id: '62362729096756971419065a'
-  //   }
-
-  // ];
-  // await Review.collection.insertMany({ reviewSeed });
+  //await Schedule.collection.insertMany(schedules);
 
   console.log('All done!');
 
   process.exit(0);
 });
+

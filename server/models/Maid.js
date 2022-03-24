@@ -1,4 +1,5 @@
 const { Schema, model } = require('mongoose');
+const dateFormat = require('../utils/dateFormat');
 const bcrypt = require('bcrypt');
 
 const maidSchema = new Schema(
@@ -31,7 +32,13 @@ const maidSchema = new Schema(
         type: Schema.Types.ObjectId,
         ref: 'Booking'
       }
-    ]
+    ],
+    createdAt: {
+      type: Date,
+      default: Date.now,
+      get: timestamp => dateFormat(timestamp),
+      timestamp: true
+    }
   },
   {
     toJSON: {
@@ -52,7 +59,6 @@ maidSchema.pre('save', async function(next) {
 
 // compare the incoming password with the hashed password
 maidSchema.methods.isCorrectPassword = async function (password) {
-  console.log(password, this.password);
   return bcrypt.compare(password, this.password);
 };
 
