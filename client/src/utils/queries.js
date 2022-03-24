@@ -8,6 +8,15 @@ export const QUERY_BOOKINGS = gql`
   }
 `;
 
+export const QUERY_PAYMENT = gql`
+  query getPayment($products: [ID]!) {
+    checkout(bookings: $bookings) {
+      session
+    }
+  }
+`;
+
+
 export const QUERY_MAIDS = gql`
   query maids($maid: String) {
     user:(name: $name) {
