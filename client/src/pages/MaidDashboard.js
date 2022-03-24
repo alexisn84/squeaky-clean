@@ -28,7 +28,7 @@ const MaidDashboard = (props) => {
     //   const maid = data?.me || data?.maid || {};
 
     if (Auth.loggedIn() && Auth.getProfile().data.username === userParam) {
-        return <Redirect to="/home" />;
+        return <Redirect to="/maidlogin" />;
       }
 
     if (!maid?.name) {

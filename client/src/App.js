@@ -16,8 +16,10 @@ import Footer from './components/Footer/Footer';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import MaidLogin from './pages/MaidLogin';
+import Signup from './pages/Signup';
 //import Rating from './components/Rating';
 // import UserDashboard from './pages/UserDashboard';
+// import MaidDashboard from "./pages/MaidDashboard";
 
 //setup graphql and auth
 const httpLink = createHttpLink({
@@ -49,7 +51,9 @@ function App() {
                 <Route path="/" element={<Home/>} />
                   <Route path="/login" element={<Login/>} />
                   <Route path="/maidlogin" element={<MaidLogin/>} />
-                  
+                  <Route path="/signup" element={<Signup/>} />
+                  {/* <Route path="/maiddashboard" element={<MaidDashboard/>} /> */}
+
               </Routes>
           </Router>
         </ApolloProvider>
