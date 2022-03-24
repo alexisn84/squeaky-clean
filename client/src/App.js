@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import {
   ApolloClient,
   InMemoryCache,
@@ -13,6 +13,7 @@ import { setContext } from '@apollo/client/link/context';
 
 //import pages
 import Home from './pages/Home';
+import Login from './pages/Login';
 //import Rating from './components/Rating';
 //import UserDashboard from './pages/UserDashboard';
 
@@ -39,11 +40,12 @@ const client = new ApolloClient({
 function App() {
     return (
         <ApolloProvider client={client}>
-          <Router>  
-              <div>
-                <Home/>
-              </div>
-            </Router>
+          <Router> 
+              <Routes>
+                <Route path="/" element={<Home/>} />
+                  <Route path="/login" element={<Login/>} />
+              </Routes>
+          </Router>
         </ApolloProvider>
     );
 }
