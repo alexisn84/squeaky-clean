@@ -3,7 +3,7 @@ import './Footer.css'
 
 function Footer() {
     return (
-        <div className='footer'>
+        <div className='footer has-text-centered'>
             <div className='content has-text-centered'>
                 <div class="columns is-mobile is-centered">
                     <div class="column">

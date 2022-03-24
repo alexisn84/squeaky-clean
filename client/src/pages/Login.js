@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { LOGIN_USER } from '../utils/mutations';
-import {Link} from 'react-router-dom';
 
 import Auth from '../utils/auth';
 
@@ -85,7 +84,6 @@ const Login = (props) => {
               </div>
             </div>
           </div>
-          <Link to='/maidlogin'>Employee Login</Link>
         </main>
     );
 };

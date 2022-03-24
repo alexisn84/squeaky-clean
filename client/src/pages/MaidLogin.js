@@ -2,10 +2,15 @@ import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { LOGIN_USER } from '../utils/mutations';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import Auth from '../utils/auth';
 
+// import imagges
 import LoginImage from '../assets/login/login.webp';
+
+// import component
+import MainNavBar from '../components/Navigation/MainNavBar';
 
 const MaidLogin = (props) => {
     const [formState, setFormState] = useState({ email: '', password: '' });
@@ -49,7 +54,9 @@ const MaidLogin = (props) => {
 
     return (
         <main>
-          <div id='login' className='section'>
+          <div>
+            <MainNavBar/>
+            <div id='login' className='section'>
             <div className='columns is-vcentered'>
               <div className='column is-half has-text-centered'>
                 <figure className="image is-5x4 is-inline-block">
@@ -61,8 +68,8 @@ const MaidLogin = (props) => {
                 <div className='form'>
                 <form onSubmit={handleFormSubmit}>
                   <div className="field">
-                    <p className="control has-icons-left has-icons-right">
-                    <input className="input" type="text" placeholder="Employee ID"/>
+                    <p className="control has-icons-right">
+                    <input className="input" type="text" name="text" onChange={() => handleChange()} placeholder="Employee ID"/>
                       <span className="icon is-small is-left">
                         <i className="fas fa-envelope"></i>
                       </span>
@@ -70,11 +77,15 @@ const MaidLogin = (props) => {
                   </div>
                   <div className="field">
                     <p clasName="control has-icons-left">
-                    <input className="input" type="password" placeholder="Password"/>
+                    <input className="input" type="password" name="text" onChange={() => handleChange()} placeholder="Password"/>
                       <span className="icon is-small is-left">
                       </span>
                     </p>
+                    <p>
+                      <Link to="/login">Not an Employee? Back to user login.</Link>
+                    </p>
                   </div>
+
                   <div className="field">
                     <p className="control">
                       <button className="button is-info">
@@ -87,6 +98,8 @@ const MaidLogin = (props) => {
               </div>
             </div>
           </div>
+          </div>
+          
         </main>
     );
 };
