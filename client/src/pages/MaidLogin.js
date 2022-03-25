@@ -30,7 +30,7 @@ const MaidLogin = (props) => {
       ...formState,
       [name]: value,
     });
-    console.log(value, name, 'this is the name');
+    console.log(value, name, 'this is the maid name');
 
   };
 
