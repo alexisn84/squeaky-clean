@@ -13,7 +13,8 @@ import LoginImage from '../assets/login/login.webp';
 import MainNavBar from '../components/Navigation/MainNavBar';
 
 
-//import pages
+//import pages 
+// ************ not being called but if i take it away it doesnt work
 import MaidDashboard from './MaidDashboard'; 
 
 const MaidLogin = (props) => {
@@ -73,7 +74,7 @@ const MaidLogin = (props) => {
                 <form onSubmit={handleFormSubmit}>
                   <div className="field">
                     <p className="control has-icons-right">
-                    <input className="input" type="text" name="text" onChange={() => handleChange()} placeholder="Employee ID"/>
+                    <input className="input" type="email" name="email" onChange={() => handleChange()} placeholder="Email"/>
                       <span className="icon is-small is-left">
                         <i className="fas fa-envelope"></i>
                       </span>
@@ -99,6 +100,7 @@ const MaidLogin = (props) => {
                     </p>
                   </div>
                 </form>
+                {error && <div>Login failed</div>}
                 </div>
               </div>
             </div>

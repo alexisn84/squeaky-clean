@@ -78,9 +78,11 @@ const Login = (props) => {
                       <button className="button is-info">
                       Login
                       </button>
+                      <a href="/userdashboard">Login</a>
                     </p>
                   </div>
                 </form>
+                {error && <div>Login failed</div>}
                 </div>
               </div>
             </div>

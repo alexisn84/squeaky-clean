@@ -91,7 +91,10 @@ import MaidNavBar from '../components/Navigation/MaidNavBar'
 import DashboardImage from "../assets/dashboard/dashboard.png"
 import "./MaidDashboard.css"
 
-function MaidDashboard() {
+const MaidDashboard = (props) => {
+
+
+  
   return (
     <div>
       <MaidNavBar />
