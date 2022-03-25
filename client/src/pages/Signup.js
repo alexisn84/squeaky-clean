@@ -27,7 +27,7 @@ const Signup = () => {
       ...formState,
       [name]: value,
     });
-    navigate('/userdashboard')
+    
 
   };
 
@@ -44,6 +44,7 @@ const Signup = () => {
     } catch (e) {
       console.error(e);
     }
+    navigate('/userdashboard')
   };
 
   return (
@@ -82,7 +83,7 @@ const Signup = () => {
                       type="email"
                       id="email"
                       value={formState.email}
-                      onChange={handleChange}
+                      // onChange={handleChange}
                     />
                     </div>
                     <div className="field">
@@ -93,7 +94,7 @@ const Signup = () => {
                       type="password"
                       id="password"
                       value={formState.password}
-                      onChange={handleChange}
+                      // onChange={handleChange}
                     />
                       <p>
                         <Link to="/login">Already have an account? Go back to user login.</Link>
