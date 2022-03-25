@@ -35,7 +35,6 @@ export const QUERY_CHECKOUT = gql`
   }
 `;
 
-
 export const QUERY_MAIDS = gql`
   query maids($maid: String) {
     user(name: $name) {
