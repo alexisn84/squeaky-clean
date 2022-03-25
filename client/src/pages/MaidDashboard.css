@@ -1,0 +1,47 @@
+.hero-body {
+    display: flex;
+    justify-content: center;
+    background-color: #e1eaeb
+    ;
+}
+
+.scheduled-cleanings-container {
+    background-color: rgb(208, 167, 247);
+    min-height: 300px;
+}
+
+.title {
+    margin: 20px;
+}
+
+.scheduled-cleanings-list {
+    margin: 25px;
+}
+
+.maid-reviews-container {
+    background-color: aquamarine;
+    min-height: 300px;
+}
+
+.maid-reviews-list {
+    margin: 25px;
+}
+
+.maid-rating-container {
+    background-color: pink;
+    min-height: 200px;
+}
+
+.maid-rating-list {
+    margin: 25px;
+}
+
+.maid-buttons {
+    display: flex;
+    justify-content: center;
+}
+
+.button {
+    margin: 10px;
+}
+

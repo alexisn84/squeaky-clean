@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 import ReviewForm from '../components/ReviewForm';
 import ReviewList from '../components/ReviewList';

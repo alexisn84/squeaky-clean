@@ -1,0 +1,17 @@
+.list-item {
+    list-style: none;
+}
+
+.page-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.content-wrap {
+    flex: 1;
+}
+
+.footer {
+    background-color:hsla(0, 89%, 33%, 0.856);
+}

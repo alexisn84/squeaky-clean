@@ -1,5 +1,7 @@
 import { gql } from '@apollo/client';
 
+// view list of upcoming bookings pages/UserDashboard.js; 
+// block out times that are booked already pages/Booking.js
 export const QUERY_BOOKINGS = gql`
   query getbookings($booking: String){
     _id
@@ -26,7 +28,7 @@ export const QUERY_ALL_BOOKINGS = gql`
   }
 `;
 
-//for checkout with Stripe
+//for checkout with Stripe components/Cart
 export const QUERY_CHECKOUT = gql`
   query getPayment($products: [ID]!) {
     checkout(bookings: $bookings) {
@@ -36,6 +38,8 @@ export const QUERY_CHECKOUT = gql`
 `;
 
 
+// pages/UserDashboard.js (might not use here though)
+// pages/MdReviewList.js
 export const QUERY_MAIDS = gql`
   query maids($maid: String) {
     user:(name: $name) {
@@ -50,7 +54,7 @@ export const QUERY_MAIDS = gql`
   }
 `;
 
-//for maid list to show user single maid with reviews
+// pages/MaidDashboard; pages/MdReviewList.js
 export const QUERY_MAID = gql`
   query maid($maid: String) {
     user:(name: $name) {
@@ -65,7 +69,7 @@ export const QUERY_MAID = gql`
   }
 `;
 
-//for maid dashboard
+// pages/MaidDashboard.js
 export const QUERY_EMPL = gql`
   query maids($maid: String) {
     user:(name: $name) {
@@ -87,6 +91,8 @@ export const QUERY_EMPL = gql`
   }
 `;
 
+// for User to see a Maid with their Reviews. pages/MdReviewList.js
+// for User to see reviews they have left. either pages/UserDashboard.js or components/ReviewList
 export const QUERY_REVIEWS = gql`
   query reviews($username: String) {
     reviews(username: $username) {
@@ -99,7 +105,7 @@ export const QUERY_REVIEWS = gql`
   }
 `;
 
-//for user to edit single review
+//for user to edit single review. pages/SingleReview.js
 export const QUERY_REVIEW = gql`
   query review($id: ID!) {
     review(_id: $id) {
@@ -111,7 +117,7 @@ export const QUERY_REVIEW = gql`
   }
 `;
 
-//to pull into maiddashboard
+//pages/UserDashboard.js
 export const QUERY_USER = gql`
   query user($username: String!) {
     user(username: $username) {
@@ -135,7 +141,7 @@ export const QUERY_USER = gql`
   }
 `;
 
-
+//pages/UserDashboard.js
 export const QUERY_ME = gql`
   {
     me {
