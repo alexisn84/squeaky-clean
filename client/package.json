@@ -1,4 +1,8 @@
 {
+  "name": "mern-client",
+  "version": "0.1.0",
+  "private": true,
+  "proxy": "http://localhost:3001/",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

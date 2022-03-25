@@ -80,7 +80,7 @@ const MaidLogin = (props) => {
                     </p>
                   </div>
                   <div className="field">
-                    <p clasName="control has-icons-left">
+                    <p className="control has-icons-left">
                     <input className="input" type="password" name="password" onChange={() => handleChange()} placeholder="Password"/>
                       <span className="icon is-small is-left">
                       </span>

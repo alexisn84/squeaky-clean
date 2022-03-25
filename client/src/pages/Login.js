@@ -7,23 +7,22 @@ import Auth from '../utils/auth';
 import LoginImage from '../assets/login/login.webp';
 
 const Login = (props) => {
-    const [formState, setFormState] = useState({ email: '', password: '' });
-    const [login, { error }] = useMutation(LOGIN_USER);
+  const [formState, setFormState] = useState({ email: '', password: '' });
+  const [login, { error }] = useMutation(LOGIN_USER);
 
-    // update state based on form input changes
-    const handleChange = (event) => {
+  // update state based on form input changes
+  const handleChange = (event) => {
     const { name, value } = event.target;
 
     setFormState({
       ...formState,
       [name]: value,
-      
+
     });
-    console.log(name, value, 'this is the name');
 
   };
 
-    // submit form
+  // submit form
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
@@ -31,7 +30,6 @@ const Login = (props) => {
       const { data } = await login({
         variables: { ...formState },
       });
-
       Auth.login(data.login.token);
     } catch (e) {
       console.error(e);
@@ -44,48 +42,48 @@ const Login = (props) => {
     });
   };
 
-    return (
-        <main>
-          <div id='login' className='section'>
-            <div className='columns is-vcentered'>
-              <div className='column is-half has-text-centered'>
-                <figure className="image is-5x4 is-inline-block">
-                  <img src={LoginImage} alt="cleaning the kitchen"/>
-                </figure>
-              </div>
-              <div className='column is-half'>
-                <div className='title is-1'>Welcome Back!</div>
-                <div className='form'>
-                <form onSubmit={handleFormSubmit}>
-                  <div className="field">
-                    <p className="control has-icons-left has-icons-right">
-                    <input className="input" type="email" name="email" onChange={() => handleChange()} placeholder="Email"/>
-                      <span className="icon is-small is-left">
-                        <i className="fas fa-envelope"></i>
-                      </span>
-                    </p>
-                  </div>
-                  <div className="field">
-                    <p clasName="control has-icons-left">
-                    <input className="input" type="password" name="password" onChange={() => handleChange()} placeholder="Password"/>
-                      <span className="icon is-small is-left">
-                      </span>
-                    </p>
-                  </div>
-                  <div className="field">
-                    <p className="control">
-                      <button className="button is-info">
-                      Login
-                      </button>
-                    </p>
-                  </div>
-                </form>
+  return (
+    <main>
+      <div id='login' className='section'>
+        <div className='columns is-vcentered'>
+          <div className='column is-half has-text-centered'>
+            <figure className="image is-5x4 is-inline-block">
+              <img src={LoginImage} alt="cleaning the kitchen" />
+            </figure>
+          </div>
+          <div className='column is-half'>
+            <div className='title is-1'>Welcome Back!</div>
+            <div className='form'>
+              <form onSubmit={handleFormSubmit}>
+                <div className="field">
+                  <p className="control has-icons-left has-icons-right">
+                    <input className="input" type="email" name="email" onChange={() => handleChange()} placeholder="Email" />
+                    <span className="icon is-small is-left">
+                      <i className="fas fa-envelope"></i>
+                    </span>
+                  </p>
                 </div>
-              </div>
+                <div className="field">
+                  <p className="control has-icons-left">
+                    <input className="input" type="password" name="password" onChange={() => handleChange()} placeholder="Password" />
+                    <span className="icon is-small is-left">
+                    </span>
+                  </p>
+                </div>
+                <div className="field">
+                  <p className="control">
+                    <button className="button is-info">
+                      Login
+                    </button>
+                  </p>
+                </div>
+              </form>
             </div>
           </div>
-        </main>
-    );
+        </div>
+      </div>
+    </main>
+  );
 };
 
 export default Login;

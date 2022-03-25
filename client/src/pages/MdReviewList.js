@@ -19,9 +19,9 @@ const MaidList = () => {
         <div>
             <h1>Maid Reviews</h1>
             <h3>Please select a maid</h3>
-            <div class="dropdown">
-                <button class="dropbtn">Select</button>
-                    <div class="dropdown-content">
+            <div className="dropdown">
+                <button className="dropbtn">Select</button>
+                    <div className="dropdown-content">
                         {/* need to connect to each maid will need 
                         to fineturn or even convert to switch
                         <a href="#">Link 1</a>
