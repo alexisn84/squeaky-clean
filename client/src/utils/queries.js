@@ -37,12 +37,11 @@ export const QUERY_CHECKOUT = gql`
   }
 `;
 
-
 // pages/UserDashboard.js (might not use here though)
 // pages/MdReviewList.js
 export const QUERY_MAIDS = gql`
   query maids($maid: String) {
-    user:(name: $name) {
+    user(name: $name) {
       _id
       name
       ratings {
@@ -57,7 +56,7 @@ export const QUERY_MAIDS = gql`
 // pages/MaidDashboard; pages/MdReviewList.js
 export const QUERY_MAID = gql`
   query maid($maid: String) {
-    user:(name: $name) {
+    user(name: $name) {
       _id
       name
       reviews {
@@ -72,7 +71,7 @@ export const QUERY_MAID = gql`
 // pages/MaidDashboard.js
 export const QUERY_EMPL = gql`
   query maids($maid: String) {
-    user:(name: $name) {
+    user(name: $name) {
       _id
       name
       ratingCount
@@ -164,6 +163,7 @@ export const QUERY_ME = gql`
           slot
           createdAt
         }
+      }
     }
   }
 `;
