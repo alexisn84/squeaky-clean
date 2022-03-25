@@ -14,16 +14,16 @@ import MainNavBar from '../components/Navigation/MainNavBar';
 
 
 //import pages 
-// ************ not being called but if i take it away it doesnt work
-import MaidDashboard from './MaidDashboard'; 
+// ************ not being called  but if i take it away it doesnt work
+import MaidDashboard from './MaidDashboard';
 
 const MaidLogin = (props) => {
-    const [formState, setFormState] = useState({ email: '', password: '' });
-    const [login, { error }] = useMutation(LOGIN_USER);
-    const navigate = useNavigate();
+  const [formState, setFormState] = useState({ email: '', password: '' });
+  const [login, { error }] = useMutation(LOGIN_USER);
+  const navigate = useNavigate();
 
-    // update state based on form input changes
-    const handleChange = (event) => {
+  // update state based on form input changes
+  const handleChange = (event) => {
     const { name, value } = event.target;
 
     setFormState({
@@ -34,10 +34,10 @@ const MaidLogin = (props) => {
 
   };
 
-    // submit form
+  // submit form
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    
+
 
     try {
       const { data } = await login({
@@ -57,57 +57,61 @@ const MaidLogin = (props) => {
     navigate('/maiddashboard')
   };
 
-    return (
-        <main>
-          <div>
-            <MainNavBar/>
-            <div id='login' className='section'>
-            <div className='columns is-vcentered'>
-              <div className='column is-half has-text-centered'>
-                <figure className="image is-5x4 is-inline-block">
-                  <img src={LoginImage} alt="cleaning the kitchen"/>
-                </figure>
-              </div>
-              <div className='column is-half'>
-                <div className='title is-1'>Let's Get Cleaning!</div>
-                <div className='form'>
+  return (
+    <main>
+      <div>
+        <MainNavBar />
+        <div id='login' className='section'>
+          <div className='columns is-vcentered'>
+            <div className='column is-half has-text-centered'>
+              <figure className="image is-5x4 is-inline-block">
+                <img src={LoginImage} alt="cleaning the kitchen" />
+              </figure>
+            </div>
+            <div className='column is-half'>
+              <div className='title is-1'>Let's Get Cleaning!</div>
+              <div className='form'>
                 <form onSubmit={handleFormSubmit}>
-                  <div className="field">
-                    <p className="control has-icons-right">
-                    <input className="input" type="email" name="email" onChange={() => handleChange()} placeholder="Email"/>
-                      <span className="icon is-small is-left">
-                        <i className="fas fa-envelope"></i>
-                      </span>
-                    </p>
+                  <div>
+                    <input
+                      className="input"
+                      placeholder="Your email"
+                      name="email"
+                      type="email"
+                      id="email"
+                      value={formState.email}
+                      onChange={handleChange}
+                    />
                   </div>
-                  <div className="field">
-                    <p clasName="control has-icons-left">
-                    <input className="input" type="password" name="password" onChange={() => handleChange()} placeholder="Password"/>
-                      <span className="icon is-small is-left">
-                      </span>
-                    </p>
+                  <div
+                    className="field">
+                    <input
+                      className="input"
+                      placeholder="******"
+                      name="password"
+                      type="password"
+                      id="password"
+                      value={formState.password}
+                      onChange={handleChange}
+                    />
                     <p>
                       <Link to="/login">Not an Employee? Back to user login.</Link>
                     </p>
                   </div>
-
                   <div className="field">
-                    <p className="control">
-                      <button className="button is-info">
+                    <button className="button is-info">
                       Submit
-                      </button>
-
-                    </p>
+                    </button>
                   </div>
                 </form>
                 {error && <div>Login failed</div>}
-                </div>
               </div>
             </div>
           </div>
-          </div>
-        </main>
-    );
+        </div>
+      </div>
+    </main>
+  );
 };
 
 export default MaidLogin;

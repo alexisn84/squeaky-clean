@@ -57,27 +57,28 @@ const Login = (props) => {
             <div className='form'>
               <form onSubmit={handleFormSubmit}>
                 <div className="field">
-                  <p className="control has-icons-left has-icons-right">
+                  <p className="control">
                     <input
                       className="input"
+                      placeholder="Your email"
+                      name="email"
                       type="email"
-                      name="email" onChange={() => handleChange()}
-                      placeholder="Email" />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-envelope"></i>
-                    </span>
+                      id="email"
+                      value={formState.email}
+                      onChange={handleChange}
+                    />
                   </p>
                 </div>
                 <div className="field">
-                  <p clasName="control has-icons-left">
-                    <input
-                      className="input"
-                      type="password"
-                      name="password" onChange={() => handleChange()}
-                      placeholder="Password" />
-                    <span className="icon is-small is-left">
-                    </span>
-                  </p>
+                  <input
+                    className="input"
+                    placeholder="******"
+                    name="password"
+                    type="password"
+                    id="password"
+                    value={formState.password}
+                    onChange={handleChange}
+                  />
                   <a href="/signup">No account? Sign up today!</a>
                 </div>
                 <div className="field">
