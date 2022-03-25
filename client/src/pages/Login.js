@@ -90,6 +90,7 @@ const Login = (props) => {
                 </div>
               </form>
               {error && <div>Login failed</div>}
+              <a href="/userdashboard">Link to userdashboard noAuth</a>
             </div>
           </div>
         </div>

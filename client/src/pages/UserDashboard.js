@@ -29,7 +29,7 @@ const UserDashboard = (props) => {
 
     // redirect to personal profile page if username is yours
     if (Auth.loggedIn() && Auth.getProfile().data.username === userParam) {
-        return <Link to="/profile" />;
+        return <Link to="/userdashboard" />;
     }
 
     if (loading) {
