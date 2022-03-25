@@ -281,8 +281,28 @@ const resolvers = {
 
       throw new AuthenticationError('Not logged in');
     },
-    //     throw new AuthenticationError('You need to be logged in!');
-    //   },
+    enterSchedule: async (parent, { scheduleDate, startTime, endTime }, context) => {
+
+      if (context.member) {
+        if (context.member.name) {
+          throw new AuthenticationError('Maid cannot schedule a booking!');
+        }
+
+        const enteredSchedule = await Schedule.create({
+          scheduleDate: scheduleDate,
+          startTime: startTime,
+          endTime: endTime
+        });
+
+
+        await Booking.updateOne(
+          { _id: booking_id },
+          { schedule_id: enteredSchedule._id }
+        );
+        return enteredSchedule;
+      }
+      throw new AuthenticationError('You need to be logged in!');
+    },
     //   addRating: async (parent, { reviewId, reactionBody }, context) => {
     //     if (context.user) {
     //       const updatedReview = await Review.findOneAndUpdate(
