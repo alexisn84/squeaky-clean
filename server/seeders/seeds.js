@@ -235,7 +235,6 @@ db.once('open', async () => {
     const bookingId = booking._id;
     maidsBooked.push(maidId);
     const maidNum = maidsBooked.filter(k => k === maidId).length
-    console.log("MAID NUM " + maidNum);
     const today = new Date();
     // adjust workday date
     const adjDay = new Date(today.setDate(today.getDate() - maidNum));
