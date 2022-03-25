@@ -7,8 +7,8 @@ function Footer() {
             <div className='content-wrap'>
                 <div className='footer has-text-centered'>
                     <div className='content has-text-centered'>
-                        <div class="columns is-mobile is-centered">
-                            <div class="column">
+                        <div className="columns is-mobile is-centered">
+                            <div className="column">
                                 <h4 className='title has-text-centered'>
                                     Sparkling Spaces
                                 </h4>
@@ -22,7 +22,7 @@ function Footer() {
                                     </ul>
                                 </div>
                             </div>
-                            <div class="column">
+                            <div className="column">
                                 <h4 className='title has-text-centered'>MERN Project by</h4>
                                 <div className='list'>
                                     <ul>
@@ -36,7 +36,7 @@ function Footer() {
                                     </ul>
                                 </div>
                             </div>
-                            <div class="column">
+                            <div className="column">
                                 <h4 className='title has-text-centered'>Corporate</h4>
                                 <div className='list'>
                                     <ul>

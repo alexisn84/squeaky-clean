@@ -233,6 +233,7 @@ db.once('open', async () => {
     const booking = bookings[i];
     const maidId = booking.maid_id;
     const bookingId = booking._id;
+    maidsBooked.push(maidId);
     const maidNum = maidsBooked.filter(k => k === maidId).length
     const today = new Date();
     // adjust workday date

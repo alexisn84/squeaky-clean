@@ -19,15 +19,16 @@ const scheduleSchema = new Schema(
       type: Date,
       required: true,
       default: Date.now,
+
       get: timestamp => dateFormat(timestamp, { noTime: true }),
     },
     startTime: {
       type: Date,
-      get: timestamp => dateFormat(timestamp),
+      get: timestamp => dateFormat(timestamp, { onlyTime: true }),
     },
     endTime: {
       type: Date,
-      get: timestamp => dateFormat(timestamp),
+      get: timestamp => dateFormat(timestamp, { onlyTime: true }),
     },
     status: {
       type: String,

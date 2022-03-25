@@ -2,6 +2,8 @@ const { AuthenticationError } = require('apollo-server-express');
 const ObjectId = require('mongodb').ObjectId;
 const { User, Maid, Booking, Review, Schedule } = require('../models');
 const { signToken, maidSignToken } = require('../utils/auth');
+// const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
+
 
 const resolvers = {
   Query: {
@@ -198,7 +200,7 @@ const resolvers = {
     },
 
 
-    createBooking: async (parent, { bookingLocation, user_id, maid_id }, context) => {
+    createBooking: async (parent, { bookingName, bookingLocation, user_id, maid_id }, context) => {
 
       if (context.member) {
         if (context.member.name) {
@@ -206,6 +208,7 @@ const resolvers = {
         }
 
         const createdBooking = await Booking.create({
+          bookingName: bookingName,
           bookingLocation: bookingLocation,
           maid_id: maid_id,
           user_id: user_id,
@@ -237,7 +240,7 @@ const resolvers = {
         }
 
         const createdSchedule = await Schedule.create({
-          scheduleDesc: ('Clean job: ' + (i + 1)),
+          scheduleDesc: scheduleDesc,
           maid_id: maid_id,
           booking_id: booking_id,
           scheduleDate: scheduleDate,
@@ -255,8 +258,28 @@ const resolvers = {
 
       throw new AuthenticationError('Must login as a User');
     },
-    //     throw new AuthenticationError('You need to be logged in!');
-    //   },
+    enterSchedule: async (parent, { scheduleDate, startTime, endTime }, context) => {
+
+      if (context.member) {
+        if (context.member.name) {
+          throw new AuthenticationError('Maid cannot schedule a booking!');
+        }
+
+        const enteredSchedule = await Schedule.create({
+          scheduleDate: scheduleDate,
+          startTime: startTime,
+          endTime: endTime
+        });
+
+
+        await Booking.updateOne(
+          { _id: booking_id },
+          { schedule_id: enteredSchedule._id }
+        );
+        return enteredSchedule;
+      }
+      throw new AuthenticationError('You need to be logged in!');
+    },
     //   addRating: async (parent, { reviewId, reactionBody }, context) => {
     //     if (context.user) {
     //       const updatedReview = await Review.findOneAndUpdate(
