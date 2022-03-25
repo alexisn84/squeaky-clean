@@ -1,12 +1,23 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Auth from '../utils/auth';
+
 import MaidNavBar from '../components/Navigation/MaidNavBar';
 import DashboardImage from "../assets/dashboard/dashboard.png";
+import ReviewForm from '../components/ReviewForm'
+import ReviewList from '../components/ReviewList';
+
+import { useQuery } from '@apollo/client';
+import { QUERY_REVIEWS, QUERY_ME_BASIC } from '../utils/queries';
+
 const UserDashboard = (props) => {
   var loggedIn = Auth.loggedIn()
   const navigate = useNavigate()
-  console.log("LOGIN STATUS " + loggedIn);
+
+  const { loading, data } = useQuery(QUERY_REVIEWS);
+  const { data: userData } = useQuery(QUERY_ME_BASIC);
+  const reviews = data?.thoughts || [];
+
   if (!loggedIn) { navigate("/login") }
   return (
     <main>
@@ -45,9 +56,12 @@ const UserDashboard = (props) => {
         <div className='maid-reviews-container'>
           <h1 className='title'>
             My Reviews
+            <ReviewForm />
           </h1>
           <div className='maid-reviews-list'>
-            comming soon
+          <ReviewList 
+              reviews={ reviews }
+            />
           </div>
         </div>
         <hr />
