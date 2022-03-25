@@ -8,6 +8,10 @@ import { useNavigate } from 'react-router-dom';
 // import { QUERY_USER, QUERY_ME, QUERY_MAIDS } from '../utils/queries';
 // import { ADD_BOOKING, ADD_REVIEW } from '../utils/mutations';
 
+import { useQuery, useMutation } from '@apollo/client';
+import { QUERY_USER, QUERY_ME, QUERY_MAIDS } from '../utils/queries';
+import { ADD_BOOKING, ADD_REVIEW } from '../utils/mutations';
+
 import Auth from '../utils/auth';
 import MaidNavBar from '../components/Navigation/MaidNavBar';
 import DashboardImage from "../assets/dashboard/dashboard.png"
@@ -16,6 +20,7 @@ import DashboardImage from "../assets/dashboard/dashboard.png"
 // import HeaderImage from '../assets/dashboard/dashboard.png';
 
 const UserDashboard = (props) => {
+
   // const { username: userParam } = useParams();
 
   // const [addBooking] = useMutation(ADD_BOOKING);
@@ -86,6 +91,68 @@ const UserDashboard = (props) => {
   //   }
   // };
 
+    const { username: userParam } = useParams();
+
+    const [addBooking] = useMutation(ADD_BOOKING);
+    const {maidList} = useQuery(QUERY_MAIDS);
+    
+    const [addReview] = useMutation(ADD_REVIEW);
+
+    const { loading, data } = useQuery(userParam ? QUERY_USER : QUERY_ME, {
+        variables: { username: userParam },
+    });
+
+    const user = data?.me || data?.user || {};
+
+    // redirect to personal profile page if username is yours
+    if (Auth.loggedIn() && Auth.getProfile().data.username === userParam) {
+        return <Link to="/userdashboard" />;
+    }
+
+    if (loading) {
+      return <div>Loading ...</div>;
+    }
+
+    if (!user?.username) {
+      return (
+      <h4>
+          Please login to see your Profile
+      </h4>
+      );
+    }
+
+    //click function to schedule booking
+    const handleClick = async () => {
+      try {
+        await addBooking({
+          variables: { id: user._id }
+        });
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
+    //click function to look at maid reviews
+    const maidClick = async () => {
+      try {
+        await maidList({
+          variables: { id: user._id }
+        });
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
+    //click function to leave review
+    const reviewClick = async () => {
+      try {
+        await addReview({
+          variables: { id: user._id }
+        });
+      } catch (e) {
+        console.error(e);
+      }
+    };
 
   return (
     <main>

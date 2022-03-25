@@ -4,6 +4,10 @@ const dateFormat = require('../utils/dateFormat');
 
 const bookingSchema = new Schema(
   {
+    bookingName: {
+      type: String,
+      default: 'Cleaning Service'
+    },
     bookingLocation: {
       type: String,
       required: true
@@ -20,8 +24,12 @@ const bookingSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'Review'
     },
+    schedule_id: {
+      type: Schema.Types.ObjectId,
+      ref: 'Schedule'
+    },
     paymentPaid: {
-      type: Number,
+      type: Boolean,
       required: true
     },
     paymentAmount: {
@@ -31,7 +39,8 @@ const bookingSchema = new Schema(
     createdAt: {
       type: Date,
       default: Date.now,
-      get: timestamp => dateFormat(timestamp)
+      get: timestamp => dateFormat(timestamp),
+      timestamp: true
     }
   });
 

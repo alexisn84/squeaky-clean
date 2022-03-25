@@ -1,8 +1,9 @@
 const { AuthenticationError } = require('apollo-server-express');
 const ObjectId = require('mongodb').ObjectId;
-const { User, Maid, Booking, Review } = require('../models');
+const { User, Maid, Booking, Review, Schedule } = require('../models');
 const { signToken, maidSignToken } = require('../utils/auth');
 // const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
+
 
 const resolvers = {
   Query: {
@@ -104,53 +105,13 @@ const resolvers = {
       }
       return Booking.find(params).sort({ createdAt: -1 });
     },
-    order: async (parent, { _id }, context) => {
-      if (context.user) {
-        const user = await User.findById(context.user._id).populate({
-          path: 'orders.bookings',
-          populate: 'booking'
-        });
 
-        return user.orders.id(_id);
+    scheduleForMaid: async (parent, { maid_id }) => {
+      const params = maid_id ? { maid_id } : {};
+      if (maid_id) {
+        return Schedule.find({ maid_id: ObjectId(maid_id) })
       }
-
-      throw new AuthenticationError('Not logged in');
-    },
-    checkout: async (parent, args, context) => {
-      const url = new URL(context.headers.referer).origin;
-      const order = new Order({ bookings: args.bookings });
-      const line_items = [];
-
-      const { bookings } = await order.populate('bookings').execPopulate();
-
-      for (let i = 0; i < bookings.length; i++) {
-        const booking = await stripe.bookings.create({
-          name: bookings[i].name,
-          description: bookings[i].description,
-          images: [`${url}/images/${bookings[i].image}`]
-        });
-
-        const price = await stripe.prices.create({
-          product: booking.id,
-          unit_amount: bookings[i].price * 100,
-          currency: 'usd',
-        });
-
-        line_items.push({
-          price: price.id,
-          quantity: 1
-        });
-      }
-
-      const session = await stripe.checkout.sessions.create({
-        payment_method_types: ['card'],
-        line_items,
-        mode: 'payment',
-        success_url: `${url}/success?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `${url}/`
-      });
-
-      return { session: session.id };
+      return Schedule.find(params).sort({ createdAt: -1 });
     }
   },
 
@@ -235,11 +196,11 @@ const resolvers = {
         return createdReview;
       }
 
-      throw new AuthenticationError('Not logged in');
+      throw new AuthenticationError('Must login as a User');
     },
 
 
-    createBooking: async (parent, { bookingLocation, user_id, maid_id }, context) => {
+    createBooking: async (parent, { bookingName, bookingLocation, user_id, maid_id }, context) => {
 
       if (context.member) {
         if (context.member.name) {
@@ -247,6 +208,7 @@ const resolvers = {
         }
 
         const createdBooking = await Booking.create({
+          bookingName: bookingName,
           bookingLocation: bookingLocation,
           maid_id: maid_id,
           user_id: user_id,
@@ -267,19 +229,34 @@ const resolvers = {
         return createdBooking;
       }
 
-      throw new AuthenticationError('Not logged in');
+      throw new AuthenticationError('Must login as a User');
     },
-    addOrder: async (parent, { products }, context) => {
-      console.log(context);
-      if (context.user) {
-        const order = new Order({ products });
 
-        await User.findByIdAndUpdate(context.user._id, { $push: { orders: order } });
+    createSchedule: async (parent, { scheduleDesc, maid_id, booking_id, scheduleDate, startTime, endTime }, context) => {
 
-        return order;
+      if (context.member) {
+        if (context.member.name) {
+          throw new AuthenticationError('Maid cannot schedule a booking!');
+        }
+
+        const createdSchedule = await Schedule.create({
+          scheduleDesc: scheduleDesc,
+          maid_id: maid_id,
+          booking_id: booking_id,
+          scheduleDate: scheduleDate,
+          startTime: startTime,
+          endTime: endTime
+        });
+
+
+        await Booking.updateOne(
+          { _id: booking_id },
+          { schedule_id: createdSchedule._id }
+        );
+        return createdSchedule;
       }
 
-      throw new AuthenticationError('Not logged in');
+      throw new AuthenticationError('Must login as a User');
     },
     enterSchedule: async (parent, { scheduleDate, startTime, endTime }, context) => {
 

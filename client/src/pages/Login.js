@@ -21,6 +21,7 @@ const Login = (props) => {
       ...formState,
       [name]: value,
     });
+    console.log(name, value, 'this is the name');
   };
 
   // submit form

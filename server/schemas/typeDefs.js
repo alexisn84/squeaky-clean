@@ -36,6 +36,7 @@ const typeDefs = gql`
  
   type Booking {
     _id: ID
+    bookingName: String
     bookingLocation: String
     user_id: String
     maid_id: String
@@ -51,10 +52,13 @@ const typeDefs = gql`
 
   type Schedule {
     _id: ID
-    schedule: String
-    maidName: String
-    date: String
-    slots: [Slot]
+    scheduleDesc: String
+    maid_id: String
+    booking_id: String
+    scheduleDate: String
+    startTime: String
+    endTime: String
+    status: String
   }
 
   type Auth {
@@ -73,10 +77,6 @@ const typeDefs = gql`
     bookings: [Booking]
   }
 
-  type Checkout {
-    session: ID
-  }
-
   type Query {
     me: User
     memd: Maid
@@ -91,10 +91,10 @@ const typeDefs = gql`
     review(_id: ID!): Review
     bookings: [Booking]
     booking(_id: ID!): Booking
-    bookingsByUser(user_id: ID): [Booking]
-    bookingsForMaid(maid_id: ID): [Booking]
+    bookingsByUser(user_id: ID!): [Booking]
+    bookingsForMaid(maid_id: ID!): [Booking]
+    scheduleForMaid(maid_id: ID!): [Schedule]
     order(bookings_id: ID!): Order
-    checkout(bookings: [ID]!) : Checkout
   }
   
   type Mutation {
@@ -103,7 +103,8 @@ const typeDefs = gql`
     maidLogin(email: String!, password: String!): MaidAuth
     maidSignin(name: String!, email: String!, password: String!): MaidAuth
     createReview(reviewText: String!, serviceRating: Int!, booking_id: ID!, user_id: ID!, maid_id: ID!): Review
-    createBooking(bookingLocation: String!, user_id: ID!, maid_id: ID!): Booking
+    createBooking(bookingName: String, bookingLocation: String!, user_id: ID!, maid_id: ID!): Booking
+    createSchedule(scheduleDesc: String, maid_id: ID!, booking_id: ID!, scheduleDate: String!, startTime: String!, endTime: String): Schedule
     addOrder(products: [ID]!): Order
     enterSchedule(scheduleDate: String!, startTime: String!, endTime: String): Schedule
   }
