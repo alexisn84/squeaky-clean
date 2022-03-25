@@ -4,6 +4,7 @@ import { LOGIN_USER } from '../utils/mutations';
 
 import Auth from '../utils/auth';
 
+//images
 import LoginImage from '../assets/login/login.webp';
 
 const Login = (props) => {
@@ -17,9 +18,8 @@ const Login = (props) => {
     setFormState({
       ...formState,
       [name]: value,
-
     });
-
+    console.log(name, value, 'this is the name');
   };
 
   // submit form
@@ -30,6 +30,7 @@ const Login = (props) => {
       const { data } = await login({
         variables: { ...formState },
       });
+
       Auth.login(data.login.token);
     } catch (e) {
       console.error(e);
@@ -56,19 +57,29 @@ const Login = (props) => {
             <div className='form'>
               <form onSubmit={handleFormSubmit}>
                 <div className="field">
-                  <p className="control has-icons-left has-icons-right">
-                    <input className="input" type="email" name="email" onChange={() => handleChange()} placeholder="Email" />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-envelope"></i>
-                    </span>
+                  <p className="control">
+                    <input
+                      className="input"
+                      placeholder="Your email"
+                      name="email"
+                      type="email"
+                      id="email"
+                      value={formState.email}
+                      onChange={handleChange}
+                    />
                   </p>
                 </div>
                 <div className="field">
-                  <p className="control has-icons-left">
-                    <input className="input" type="password" name="password" onChange={() => handleChange()} placeholder="Password" />
-                    <span className="icon is-small is-left">
-                    </span>
-                  </p>
+                  <input
+                    className="input"
+                    placeholder="******"
+                    name="password"
+                    type="password"
+                    id="password"
+                    value={formState.password}
+                    onChange={handleChange}
+                  />
+                  <a href="/signup">No account? Sign up today!</a>
                 </div>
                 <div className="field">
                   <p className="control">
@@ -76,8 +87,11 @@ const Login = (props) => {
                       Login
                     </button>
                   </p>
+                  <a href="/userdashboard">Login</a>
                 </div>
               </form>
+              {error && <div>Login failed</div>}
+              <a href="/userdashboard">Link to userdashboard noAuth</a>
             </div>
           </div>
         </div>
