@@ -35,10 +35,9 @@ export const QUERY_CHECKOUT = gql`
   }
 `;
 
-
 export const QUERY_MAIDS = gql`
   query maids($maid: String) {
-    user:(name: $name) {
+    user(name: $name) {
       _id
       name
       ratings {
@@ -53,7 +52,7 @@ export const QUERY_MAIDS = gql`
 //for maid list to show user single maid with reviews
 export const QUERY_MAID = gql`
   query maid($maid: String) {
-    user:(name: $name) {
+    user(name: $name) {
       _id
       name
       reviews {
@@ -68,7 +67,7 @@ export const QUERY_MAID = gql`
 //for maid dashboard
 export const QUERY_EMPL = gql`
   query maids($maid: String) {
-    user:(name: $name) {
+    user(name: $name) {
       _id
       name
       ratingCount
@@ -158,6 +157,7 @@ export const QUERY_ME = gql`
           slot
           createdAt
         }
+      }
     }
   }
 `;
