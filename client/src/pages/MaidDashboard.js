@@ -1,4 +1,5 @@
 import React from 'react'
+import Auth from "../utils/auth"
 
 // import components
 import MaidNavBar from '../components/Navigation/MaidNavBar'
@@ -6,9 +7,12 @@ import MaidNavBar from '../components/Navigation/MaidNavBar'
 //import images and css
 import DashboardImage from "../assets/dashboard/dashboard.png"
 import "./MaidDashboard.css"
+import { useNavigate } from 'react-router-dom'
 
 const MaidDashboard = (props) => {
-
+  var loggedIn = Auth.loggedIn()
+  const navigate = useNavigate()
+  if (!loggedIn) {navigate("/maidlogin")}
   return (
     <div>
       <MaidNavBar />
