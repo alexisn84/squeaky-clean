@@ -9,8 +9,6 @@ import "./MaidDashboard.css"
 
 const MaidDashboard = (props) => {
 
-
-  
   return (
     <div>
       <MaidNavBar />

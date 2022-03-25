@@ -63,32 +63,38 @@ const Signup = () => {
                 <div className='title is-1'>Create Account</div>
                 <div className='form'>
                   <form onSubmit={handleFormSubmit}>
-                    <div className="field">
-                      <p className="control has-icons-right">
-                        <input 
-                        className="input" 
-                        type="email" 
-                        name="email" 
-                        vaule={formState.email}
-                        onChange={handleChange}
-                        placeholder="Email" />
-                        <span className="icon is-small is-left">
-                          <i className="fas fa-envelope"></i>
-                        </span>
-                      </p>
+                    <div className='field'>
+                    <input
+                      className="input"
+                      placeholder="Username"
+                      name="username"
+                      type="username"
+                      id="username"
+                      value={formState.username}
+                      onChange={handleChange}
+                    />
                     </div>
                     <div className="field">
-                      <p clasName="control has-icons-left">
-                        <input 
-                        className="input" 
-                        type="password" 
-                        name="password" 
-                        value={formState.password}                 
-                        onChange={handleChange}
-                        placeholder="Password" />
-                        <span className="icon is-small is-left">
-                        </span>
-                      </p>
+                    <input
+                      className="input"
+                      placeholder="Email"
+                      name="email"
+                      type="email"
+                      id="email"
+                      value={formState.email}
+                      onChange={handleChange}
+                    />
+                    </div>
+                    <div className="field">
+                    <input
+                      className="input"
+                      placeholder="*******"
+                      name="password"
+                      type="password"
+                      id="password"
+                      value={formState.password}
+                      onChange={handleChange}
+                    />
                       <p>
                         <Link to="/login">Already have an account? Go back to user login.</Link>
                       </p>
