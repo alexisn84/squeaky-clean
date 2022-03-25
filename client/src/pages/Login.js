@@ -71,6 +71,7 @@ const Login = (props) => {
                       <span className="icon is-small is-left">
                       </span>
                     </p>
+                    <a href="/signup">No account? Sign up today!</a>
                   </div>
                   <div className="field">
                     <p className="control">
