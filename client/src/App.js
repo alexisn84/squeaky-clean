@@ -11,7 +11,6 @@ import "./App.css"
 
 //import componenets
 import Footer from './components/Footer/Footer';
-import Rate from "./components/Rating/index"
 
 //import pages
 import Home from './pages/Home';
