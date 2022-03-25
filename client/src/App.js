@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useNavigate} from 'react-router-dom';
 import {
   ApolloClient,
   InMemoryCache,
@@ -18,6 +18,8 @@ import Signup from './pages/Signup';
 import Login from './pages/Login';
 import MaidLogin from './pages/MaidLogin';
 import MaidDashboard from "./pages/MaidDashboard";
+
+import Auth from "./utils/auth"
 
 //setup graphql and auth
 const httpLink = createHttpLink({
@@ -40,6 +42,8 @@ const client = new ApolloClient({
   });
 
 function App() {
+  var loggedIn = Auth.loggedIn()
+  const navigate = useNavigate()
     return (
       <div className='page-container'>
         <div className='content-wrap'>
@@ -50,7 +54,7 @@ function App() {
                   <Route path="/login" element={<Login/>} />
                   <Route path="/maidlogin" element={<MaidLogin/>} />
                   <Route path="/signup" element={<Signup/>} />
-                  <Route path="/maiddashboard" element={<MaidDashboard/>} />
+                  <Route path="/maiddashboard" element={loggedIn?<MaidDashboard/>:navigate("/maidlogin")} />
               </Routes>
           </Router>
         </ApolloProvider>
