@@ -11,6 +11,7 @@ import "./App.css"
 
 //import componenets
 import Footer from './components/Footer/Footer';
+import Rate from "./components/Rating/index"
 
 //import pages
 import Home from './pages/Home';
@@ -18,6 +19,8 @@ import Signup from './pages/Signup';
 import Login from './pages/Login';
 import MaidLogin from './pages/MaidLogin';
 import MaidDashboard from "./pages/MaidDashboard";
+import UserDashboard from './pages/UserDashboard';
+ 
 
 
 //setup graphql and auth
@@ -52,6 +55,8 @@ function App() {
                   <Route path="/maidlogin" element={<MaidLogin/>} />
                   <Route path="/signup" element={<Signup/>} />
                   <Route path="/maiddashboard" element={<MaidDashboard/>} />
+                  <Route path="/userdashboard" element={<UserDashboard/>} />
+
               </Routes>
           </Router>
         </ApolloProvider>
