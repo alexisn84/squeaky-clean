@@ -23,11 +23,11 @@ const scheduleSchema = new Schema(
     },
     startTime: {
       type: Date,
-      get: timestamp => dateFormat(timestamp),
+      get: timestamp => dateFormat(timestamp, { onlyTime: true }),
     },
     endTime: {
       type: Date,
-      get: timestamp => dateFormat(timestamp),
+      get: timestamp => dateFormat(timestamp, { onlyTime: true }),
     },
     status: {
       type: String,

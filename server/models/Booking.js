@@ -4,6 +4,10 @@ const dateFormat = require('../utils/dateFormat');
 
 const bookingSchema = new Schema(
   {
+    bookingName: {
+      type: String,
+      default: 'Cleaning Service'
+    },
     bookingLocation: {
       type: String,
       required: true

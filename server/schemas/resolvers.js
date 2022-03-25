@@ -198,7 +198,7 @@ const resolvers = {
     },
 
 
-    createBooking: async (parent, { bookingLocation, user_id, maid_id }, context) => {
+    createBooking: async (parent, { bookingName, bookingLocation, user_id, maid_id }, context) => {
 
       if (context.member) {
         if (context.member.name) {
@@ -206,6 +206,7 @@ const resolvers = {
         }
 
         const createdBooking = await Booking.create({
+          bookingName: bookingName,
           bookingLocation: bookingLocation,
           maid_id: maid_id,
           user_id: user_id,
@@ -237,7 +238,7 @@ const resolvers = {
         }
 
         const createdSchedule = await Schedule.create({
-          scheduleDesc: ('Clean job: ' + (i + 1)),
+          scheduleDesc: scheduleDesc,
           maid_id: maid_id,
           booking_id: booking_id,
           scheduleDate: scheduleDate,
