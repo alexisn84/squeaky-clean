@@ -35,6 +35,8 @@ export const QUERY_CHECKOUT = gql`
   }
 `;
 
+// pages/UserDashboard.js (might not use here though)
+// pages/MdReviewList.js
 export const QUERY_MAIDS = gql`
   query maids($maid: String) {
     user(name: $name) {
@@ -133,7 +135,6 @@ export const QUERY_USER = gql`
     }
   }
 `;
-
 
 export const QUERY_ME = gql`
   {
