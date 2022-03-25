@@ -2,6 +2,8 @@ const { AuthenticationError } = require('apollo-server-express');
 const ObjectId = require('mongodb').ObjectId;
 const { User, Maid, Booking, Review, Schedule } = require('../models');
 const { signToken, maidSignToken } = require('../utils/auth');
+// const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
+
 
 const resolvers = {
   Query: {
@@ -256,8 +258,28 @@ const resolvers = {
 
       throw new AuthenticationError('Must login as a User');
     },
-    //     throw new AuthenticationError('You need to be logged in!');
-    //   },
+    enterSchedule: async (parent, { scheduleDate, startTime, endTime }, context) => {
+
+      if (context.member) {
+        if (context.member.name) {
+          throw new AuthenticationError('Maid cannot schedule a booking!');
+        }
+
+        const enteredSchedule = await Schedule.create({
+          scheduleDate: scheduleDate,
+          startTime: startTime,
+          endTime: endTime
+        });
+
+
+        await Booking.updateOne(
+          { _id: booking_id },
+          { schedule_id: enteredSchedule._id }
+        );
+        return enteredSchedule;
+      }
+      throw new AuthenticationError('You need to be logged in!');
+    },
     //   addRating: async (parent, { reviewId, reactionBody }, context) => {
     //     if (context.user) {
     //       const updatedReview = await Review.findOneAndUpdate(

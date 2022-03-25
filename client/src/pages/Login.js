@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { LOGIN_USER } from '../utils/mutations';
+import { useNavigate as navigate } from 'react-router-dom';
 
 import Auth from '../utils/auth';
 
 //images
 import LoginImage from '../assets/login/login.webp';
+import MaidNavBar from '../components/Navigation/MaidNavBar';
 
 const Login = (props) => {
   const [formState, setFormState] = useState({ email: '', password: '' });
@@ -35,16 +37,17 @@ const Login = (props) => {
     } catch (e) {
       console.error(e);
     }
-
     // clear form values
     setFormState({
       email: '',
       password: '',
     });
+    navigate("/userdashboard")
   };
 
   return (
     <main>
+      <MaidNavBar />
       <div id='login' className='section'>
         <div className='columns is-vcentered'>
           <div className='column is-half has-text-centered'>
@@ -87,11 +90,9 @@ const Login = (props) => {
                       Login
                     </button>
                   </p>
-                  <a href="/userdashboard">Login</a>
                 </div>
               </form>
               {error && <div>Login failed</div>}
-              <a href="/userdashboard">Link to userdashboard noAuth</a>
             </div>
           </div>
         </div>

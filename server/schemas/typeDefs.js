@@ -106,6 +106,7 @@ const typeDefs = gql`
     createBooking(bookingName: String, bookingLocation: String!, user_id: ID!, maid_id: ID!): Booking
     createSchedule(scheduleDesc: String, maid_id: ID!, booking_id: ID!, scheduleDate: String!, startTime: String!, endTime: String): Schedule
     addOrder(products: [ID]!): Order
+    enterSchedule(scheduleDate: String!, startTime: String!, endTime: String): Schedule
   }
 `;
 
