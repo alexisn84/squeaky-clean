@@ -1,5 +1,6 @@
 const { Schema, model } = require('mongoose');
 const bcrypt = require('bcrypt');
+const dateFormat = require('../utils/dateFormat');
 
 const userSchema = new Schema(
   {
@@ -32,7 +33,14 @@ const userSchema = new Schema(
         ref: 'Review'
       }
     ],
+    createdAt: {
+      type: Date,
+      default: Date.now,
+      get: timestamp => dateFormat(timestamp),
+      timestamp: true
+    },
   },
+
   {
     toJSON: {
       virtuals: true
@@ -41,7 +49,7 @@ const userSchema = new Schema(
 );
 
 // set up pre-save middleware to create password
-userSchema.pre('save', async function(next) {
+userSchema.pre('save', async function (next) {
   if (this.isNew || this.isModified('password')) {
     const saltRounds = 10;
     this.password = await bcrypt.hash(this.password, saltRounds);
@@ -51,15 +59,15 @@ userSchema.pre('save', async function(next) {
 });
 
 // compare the incoming password with the hashed password
-userSchema.methods.isCorrectPassword = async function(password) {
+userSchema.methods.isCorrectPassword = async function (password) {
   return bcrypt.compare(password, this.password);
 };
 
-userSchema.virtual('reviewCount').get(function() {
+userSchema.virtual('reviewCount').get(function () {
   return this.reviews.length;
 });
 
-userSchema.virtual('bookingCount').get(function() {
+userSchema.virtual('bookingCount').get(function () {
   return this.bookings.length;
 });
 

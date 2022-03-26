@@ -22,19 +22,23 @@ module.exports = {
 
     try {
       const { data } = jwt.verify(token, secret, { maxAge: expiration });
-      req.user = data;
+      req.member = data;
     } catch {
       console.log('Invalid token');
     }
 
     return req;
   },
-  signUserToken: function({ username, email, _id }) {
+  signToken: function({ username, email, _id }) {
     const payload = { username, email, _id };
     return jwt.sign({ data: payload }, secret, { expiresIn: expiration });
   },
-  signMaidToken: function({ name,  _id }) {
-    const payload = { name, _id };
+  /*signUserToken: function({ username, email, _id }) {
+    const payload = { username, email, _id };
+    return jwt.sign({ data: payload }, secret, { expiresIn: expiration });
+  },*/
+  maidSignToken: function({ name, email, _id }) {
+    const payload = { name, email, _id };
     return jwt.sign({ data: payload }, secret, { expiresIn: expiration });
   }
 };

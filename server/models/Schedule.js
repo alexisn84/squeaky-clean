@@ -3,70 +3,53 @@ const dateFormat = require('../utils/dateFormat');
 
 const scheduleSchema = new Schema(
   {
-    schedule: {
-      type: String
+    scheduleDesc: {
+      type: String,
+      default: 'Cleaning Job'
     },
-    maidName: {
-      type: String
+    maid_id: {
+      type: Schema.Types.ObjectId,
+      ref: 'Maid'
     },
-    date: {
+    booking_id: {
+      type: Schema.Types.ObjectId,
+      ref: 'Booking'
+    },
+    scheduleDate: {
       type: Date,
       required: true,
-      timestamps: true
+      default: Date.now,
+
+      get: timestamp => dateFormat(timestamp, { noTime: true }),
     },
-    slots: [
-      {
-        start: {
-          type: Number,
-          required: true,
-          min: 9,
-          max: 16
-        },
-        finish: {
-          type: Number,
-          required: true,
-          min: 9,
-          max: 16
-        }
-      }
-    ]
+    startTime: {
+      type: Date,
+      get: timestamp => dateFormat(timestamp, { onlyTime: true }),
+    },
+    endTime: {
+      type: Date,
+      get: timestamp => dateFormat(timestamp, { onlyTime: true }),
+    },
+    status: {
+      type: String,
+      required: true,
+      match: [/^complete|working|scheduled|canceled?/, 'Schedule status must be "complete", "working", "scheduled", or "canceled"!'],
+      default: 'scheduled'
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now,
+      get: timestamp => dateFormat(timestamp),
+      timestamp: true
+    }
   },
   {
     toJSON: {
-      getters: true,
-      virtuals: true
+      getters: true
     }
   }
 );
 
-scheduleSchema.virtual('availability').get(function () {
-  let avail = [];
-  let sortedSlots = this.slots.sort((a, b) => {
-    return a.start - b.start;
-  });
-
-  // FIRST
-  // if the first slot start value is >=11
-  //     push { start: 9, end: start-1 } to avail array ... record end = finish
-  // NEXT
-  // if start value <= last end ... ERROR 
-
-  for (let i = 0; i < this.slots.length; i++) {
-    let startHr = sortedSlots[i].start;
-    let endHr;
-    if (i === 0 && start >= 11) {
-      avail.push({ start: 9, finish: (startHr - 1) });
-    } else if (startHr > (endHr + 1)) {
-      avail.push({ start: endHr, finish: startHr - 1 })
-      endHr = sortedSlots[i].finish;
-      if (startHr >= endHr) {
-        console.log("overlapping timeslots...ignoring slot: " + JSON.stringify(sortedSlots[i]));
-      }
-    }
-  }
-  console.log(JSON.stringify(avail));
-  return avail;
-});
 
 const Schedule = model('Schedule', scheduleSchema);
 

@@ -12,6 +12,8 @@ import Testimonial1 from '../assets/testimonials/testimonial1.jpg';
 import Testimonial2 from '../assets/testimonials/testimonial2.jpg';
 import Testimonial3 from '../assets/testimonials/testimonial3.jpg';
 
+import ReviewForm from '../components/ReviewForm'
+
 export default function Home() {
 
     const Nav = () => {
@@ -167,6 +169,7 @@ export default function Home() {
             <About/>
             <Rates/>
             <Testimonials/>
+            <ReviewForm/>
         </div>
     )
 

@@ -1,22 +1,50 @@
 import { gql } from '@apollo/client';
 
 export const QUERY_BOOKINGS = gql`
-  query bookings($booking: String){
+  query getbookings($booking: String){
     _id
+    name
+    description
+    price
+    quantity
     time
     date
   }
 `;
 
+export const QUERY_ALL_BOOKINGS = gql`
+  {
+    bookings {
+      _id
+      name
+      description
+      price
+      quantity
+      time
+      date
+    }
+  }
+`;
+
+//for checkout with Stripe
+export const QUERY_CHECKOUT = gql`
+  query getPayment($products: [ID]!) {
+    checkout(bookings: $bookings) {
+      session
+    }
+  }
+`;
+
+// pages/UserDashboard.js (might not use here though)
+// pages/MdReviewList.js
 export const QUERY_MAIDS = gql`
   query maids($maid: String) {
-    user:(name: $name) {
+    user(name: $name) {
       _id
       name
       ratings {
         _id
         createdAt
-        ratingBody
         username
       }
     }
@@ -26,7 +54,7 @@ export const QUERY_MAIDS = gql`
 //for maid list to show user single maid with reviews
 export const QUERY_MAID = gql`
   query maid($maid: String) {
-    user:(name: $name) {
+    user(name: $name) {
       _id
       name
       reviews {
@@ -41,7 +69,7 @@ export const QUERY_MAID = gql`
 //for maid dashboard
 export const QUERY_EMPL = gql`
   query maids($maid: String) {
-    user:(name: $name) {
+    user(name: $name) {
       _id
       name
       ratingCount
@@ -50,10 +78,10 @@ export const QUERY_EMPL = gql`
         time
         date
       }
-      ratings {
+      reviews {
         _id
         createdAt
-        ratingBody
+        reviewBody
         username
       }
     }
@@ -108,7 +136,6 @@ export const QUERY_USER = gql`
   }
 `;
 
-
 export const QUERY_ME = gql`
   {
     me {
@@ -131,6 +158,7 @@ export const QUERY_ME = gql`
           slot
           createdAt
         }
+      }
     }
   }
 `;

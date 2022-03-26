@@ -12,9 +12,21 @@ export const LOGIN_USER = gql`
   }
 `;
 
+export const LOGIN_MAID = gql`
+  mutation login($email: String!, $password: String!) {
+    login(email: $email, password: $password) {
+      token
+      maid {
+        _id
+        name
+      }
+    }
+  }
+`;
+
 export const ADD_USER = gql`
-  mutation addUser($username: String!, $email: String!, $password: String!) {
-    addUser(username: $username, email: $email, password: $password) {
+  mutation signin($username: String!, $email: String!, $password: String!) {
+    signin(username: $username, email: $email, password: $password) {
       token
       user {
         _id
@@ -31,22 +43,17 @@ export const ADD_REVIEW = gql`
       reviewText
       createdAt
       username
-      reactionCount
-      reactions {
-        _id
-      }
     }
   }
 `;
 
 export const ADD_RATING = gql`
-  mutation addRating($ReviewId: ID!, $reactionBody: String!) {
-    addRating(reviewId: $reviewId, ratingBody: $ratingBody) {
+  mutation addRating($BookingId: ID!, $reactionBody: String!) {
+    addRating(BookingId: $BookingId, ratingBody: $ratingBody) {
       _id
       ratingCount
       ratings {
         _id
-        ratingBody
         createdAt
         username
       }
@@ -62,6 +69,21 @@ export const ADD_BOOKING = gql`
       createdAt
       username
       date
+    }
+  }
+`;
+
+export const ADD_ORDER = gql`
+  mutation addOrder($bookings: [ID]!) {
+    addOrder(bookings: $bookings) {
+      purchaseDate
+      bookings {
+        _id
+        name
+        description
+        price
+        quantity
+      }
     }
   }
 `;
