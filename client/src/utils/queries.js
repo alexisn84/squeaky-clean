@@ -89,13 +89,11 @@ export const QUERY_EMPL = gql`
 `;
 
 export const QUERY_REVIEWS = gql`
-  query reviews($username: String) {
-    reviews(username: $username) {
+  query reviewsByUser($createdByUser_id: ID!) {
+    reviewsByUser(createdByUser_id: $createdByUser_id) {
       _id
       reviewText
       createdAt
-      username
-      maid_id
     }
   }
 `;

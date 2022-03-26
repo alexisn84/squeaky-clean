@@ -58,28 +58,9 @@ const resolvers = {
         .populate('bookings');
     },
 
-    reviews: async () => {
-      return Review.find().sort({ createdAt: -1 });
-    },
-
-    reviewsByUser: async (parent, { createdByUser_id }) => {
+    reviews: async (parent, { createdByUser_id }) => {
       const params = createdByUser_id ? { createdByUser_id } : {};
-      if (createdByUser_id) {
-        return Review.find({ createdByUser_id: ObjectId(createdByUser_id) })
-      }
-      return Review.find(params).sort({ createdAt: -1 });
-    },
-
-    reviewsForMaid: async (parent, { createdForMaid_id }) => {
-      const params = createdForMaid_id ? { createdForMaid_id } : {};
-      if (createdForMaid_id) {
-        return Review.find({ createdForMaid_id: ObjectId(createdForMaid_id) })
-      }
-      return Review.find(params).sort({ createdAt: -1 });
-    },
-
-    review: async (parent, { _id }) => {
-      return Review.findOne({ _id });
+      return Thought.find(params).sort({ createdAt: -1 });
     },
 
     bookings: async () => {
@@ -164,7 +145,7 @@ const resolvers = {
       return { token, maid };
     },
 
-    createReview: async (parent, { reviewText, serviceRating, booking_id, user_id, maid_id }, context) => {
+    createReview: async (parent, { reviewText, booking_id, user_id, maid_id }, context) => {
 
       if (context.member) {
         if (context.member.name) {
@@ -175,7 +156,6 @@ const resolvers = {
           reviewText: reviewText,
           createdForMaid_id: maid_id,
           createdByUser_id: user_id,
-          serviceRating: serviceRating,
           booking_id: booking_id,
           createdAt: Date.now(),
         });

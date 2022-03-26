@@ -11,6 +11,7 @@ const ReviewForm = () => {
     const [characterCount, setCharacterCount] = useState(0);
 
     const [addReview, { error }] = useMutation(ADD_REVIEW, {
+      /*
         update(cache, { data: { addReview } }) {
           try {
             const { reviews } = cache.readQuery({ query: QUERY_REVIEWS });
@@ -28,8 +29,16 @@ const ReviewForm = () => {
             query: QUERY_ME,
             data: { me: { ...me, reviews: [...me.reviews, addReview] } },
           });
-        },
+        },*/
+
+        variables: {
+          reviewText: reviewText,
+          user_id: "623de2c892e50b63a030a3e9",
+        }
+
+
       });
+      
 
     // update state based on form input changes
     const handleChange = (event) => {

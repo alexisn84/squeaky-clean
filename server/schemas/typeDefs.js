@@ -22,7 +22,7 @@ const typeDefs = gql`
     reviewText: String
     serviceRating: Int
     createdAt: String
-    createdByUser_id: String
+    username: String
     createdForMaid_id: String    
   }
 
@@ -102,7 +102,7 @@ const typeDefs = gql`
     signin(username: String!, email: String!, password: String!): Auth
     maidLogin(email: String!, password: String!): MaidAuth
     maidSignin(name: String!, email: String!, password: String!): MaidAuth
-    createReview(reviewText: String!, serviceRating: Int!, booking_id: ID!, user_id: ID!, maid_id: ID!): Review
+    createReview(reviewText: String!, user_id: ID!): Review
     createBooking(bookingName: String, bookingLocation: String!, user_id: ID!, maid_id: ID!): Booking
     createSchedule(scheduleDesc: String, maid_id: ID!, booking_id: ID!, scheduleDate: String!, startTime: String!, endTime: String): Schedule
     addOrder(products: [ID]!): Order

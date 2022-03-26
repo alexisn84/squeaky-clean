@@ -14,9 +14,14 @@ const UserDashboard = (props) => {
   var loggedIn = Auth.loggedIn()
   const navigate = useNavigate()
 
-  const { loading, data } = useQuery(QUERY_REVIEWS);
   const { data: userData } = useQuery(QUERY_ME_BASIC);
-  const reviews = data?.thoughts || [];
+  
+
+  const { loading, data } = useQuery(QUERY_REVIEWS, {
+    variables: {createdByUser_id: userData?._id || "623de2c892e50b63a030a3e9"}
+  });
+ 
+  const reviews = data?.reviews || [];
 
   if (!loggedIn) { navigate("/login") }
   return (
