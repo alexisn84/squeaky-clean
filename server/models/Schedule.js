@@ -16,23 +16,18 @@ const scheduleSchema = new Schema(
       ref: 'Booking'
     },
     scheduleDate: {
-      type: Date,
-      required: true,
-      default: Date.now,
-
-      get: timestamp => dateFormat(timestamp, { noTime: true }),
+      type: String,
+      required: true
     },
     startTime: {
-      type: Date,
-      get: timestamp => dateFormat(timestamp, { onlyTime: true }),
+      type: String,
+      required: true
     },
     endTime: {
-      type: Date,
-      get: timestamp => dateFormat(timestamp, { onlyTime: true }),
+      type: String,
     },
     status: {
       type: String,
-      required: true,
       match: [/^complete|working|scheduled|canceled?/, 'Schedule status must be "complete", "working", "scheduled", or "canceled"!'],
       default: 'scheduled'
     },

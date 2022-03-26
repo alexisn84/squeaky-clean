@@ -105,8 +105,8 @@ const typeDefs = gql`
     createReview(reviewText: String!, serviceRating: Int!, booking_id: ID!, user_id: ID!, maid_id: ID!): Review
     createBooking(bookingName: String, bookingLocation: String!, user_id: ID!, maid_id: ID!): Booking
     createSchedule(scheduleDesc: String, maid_id: ID!, booking_id: ID!, scheduleDate: String!, startTime: String!, endTime: String): Schedule
-    addOrder(products: [ID]!): Order
     enterSchedule(scheduleDate: String!, startTime: String!, endTime: String): Schedule
+    addOrder(products: [ID]!): Order
   }
 `;
 
